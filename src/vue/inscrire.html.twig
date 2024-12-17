@@ -1,0 +1,100 @@
+{% extends "base.html.twig" %}
+{% block title %} {{ parent() }}S'inscrire {% endblock %}
+{% block contenu %}
+{% if form.valide is defined %}
+{% if form.valide == true %}
+    <div id="liveAlertPlaceholder"></div>
+    <script>
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        appendAlert = (message, type) => {
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
+        }
+        appendAlert('Inscrit avec succé !', 'success');
+    </script>
+    <h1>Inscription réussie</h1>
+    <h1>Voici votre identifiant : {{form.email}}</h1>
+    <h1>Nom : {{form.nom}}</h1>
+    <h1>Prenom : {{form.prenom}}</h1>
+{% if form.role == 1 %}
+    <h1>Vous êtes administrateur du site</h1>
+{% else %}
+    <h1>Vous êtes un client du site </h1>
+{% endif %}
+{% else %}
+    <div id="liveAlertPlaceholder"></div>
+    <script>
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        appendAlert = (message, type) => {
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                //`   <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>`
+                `   <div><h4>Echec lors de l'inscription</h4><p>Erreur : ${message}</p></div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
+        }
+        appendAlert('{{form.message}}', 'danger');
+    </script>
+    <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
+        <div class="card m-auto card-form">
+            <h5 class="card-header p-4">S'inscrire à Passion apiculture</h5>
+            <div class="card-body p-4">
+                <form action="index.php?page=inscrire" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="nom" class="sr-only">Nom:</label>
+                    <input type="text" id="nom" name="nom" class="form-control" placeholder="Nom" required autofocus>
+                    <label for="prenom" class="sr-only">Prenom:</label>
+                    <input type="text" id="prenom" name="prenom" class="form-control" placeholder="Prenom" required autofocus>
+                    <label for="inputEmail" class="sr-only">Email:</label>
+                    <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                    <label for="inputPassword" class="sr-only mt-3">Mot de passe:</label>
+                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Mot de passe" required>
+                    <label for="inputPassword2" class="sr-only mt-3">Mot de passe:</label>
+                    <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" placeholder="Confirmation mot depasse" required>
+                    <select class="form-control mt-3" name="role">
+                        <option value="1">Administrateur</option>
+                        <option value="2">Client</option>
+                    </select>
+                    <button class="btn btn-lg btn-primary btn-block mt-3" type="submit" name="btInscrire">S'inscrire</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% else %}
+    <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
+        <div class="card m-auto card-form">
+            <h5 class="card-header p-4">S'inscrire à Passion apiculture</h5>
+            <div class="card-body p-4">
+                <form action="index.php?page=inscrire" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="nom" class="sr-only">Nom:</label>
+                    <input type="text" id="nom" name="nom" class="form-control" placeholder="Nom" required autofocus>
+                    <label for="prenom" class="sr-only">Prenom:</label>
+                    <input type="text" id="prenom" name="prenom" class="form-control" placeholder="Prenom" required autofocus>
+                    <label for="inputEmail" class="sr-only">Email:</label>
+                    <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                    <label for="inputPassword" class="sr-only mt-3">Mot de passe:</label>
+                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Mot de passe" required>
+                    <label for="inputPassword2" class="sr-only mt-3">Mot de passe:</label>
+                    <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" placeholder="Confirmation mot depasse" required>
+                    <select class="form-control mt-3" name="role">
+                        <option value="1">Administrateur</option>
+                        <option value="2">Client</option>
+                    </select>
+                    <button class="btn btn-lg btn-primary btn-block mt-3" type="submit" name="btInscrire">S'inscrire</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
