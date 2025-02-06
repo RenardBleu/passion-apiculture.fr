@@ -1,0 +1,13 @@
+{% extends "base.twig" %}
+{% block title %} {{ parent() }} - En maintenance {% endblock %}
+{% block contenu %}
+    <div class="content-maintenance">
+        <div class="content-img">
+            <img src="image/logo.svg" alt="image de maintenance du site">
+        </div>
+        <div class="titre-maintenance">
+            <h1 class="h1 fw-bold">Le site est en maintenance,<br>revenez dans quelques minutes </h1>
+            <p>Nos équipes travaillent actuellement sur le problème pour le résoudre le plus rapidement possible.</p>
+        </div>
+    </div>
+{% endblock %}

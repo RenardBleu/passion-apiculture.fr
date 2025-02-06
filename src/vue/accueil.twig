@@ -1,0 +1,76 @@
+{% extends "base.twig" %}
+{% set acceuil = 'active' %}
+{% block title %} {{ parent() }} Accueil {% endblock %}
+{% block contenu %}
+    <div class="banner-acceuil overflow-hidden d-flex align-items-center justify-content-center">
+        <div class="left">
+            <h1 class="fs-3 fw-lighter">Du miel partout en france !</h1>
+            <h2 class="fs-1 fw-bold h1">Passion apiculture</h2>
+        </div>
+        <div class="right d-flex">
+            <div class="img-content-acceuil">
+                <img class="img1" src="image/3-pot-de-miel.png" alt="pot de miel">
+                <img class="img5" src="image/image-miel.png" alt="pot de miel">
+                <div class="bougi">
+                    <img class="img2" src="image/bougie-alveole-abeille-removebg-preview.png" alt="pot de miel">
+                    <img class="img3" src="image/bougie-ruche-mini-removebg-preview.png" alt="pot de miel">
+                    <img class="img4" src="image/BougiesCireAbeille.png" alt="pot de miel">
+                </div>
+                <p class="paragraphe h6">Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br>Amet aspernatur blanditiis cumque ea eaque explicabo ?</p>
+            </div>
+        </div>
+    </div>
+    <section class="sec1-cta">
+        <img src="image/image-miel.png" alt="">
+        <div class="content">
+            <h2 class="h2 fw-bold">Les promos d'été sont là !</h2>
+            <p>Obtenez un rediction jusqu'à <b>-20%</b> pour 3 pot de miel acheté pendant toute la période d'été !</p>
+            <div><button type="button" class="btn btn-secondary">Profiter de l'offre</button></div>
+        </div>
+    </section>
+    <section class="sec container mx-auto my-5">
+        <div id="carouselExampleDark" class="carousel carousel-light slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <img src="/image/bg-apiculteur.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="card w-75">
+                            <div class="card-body text-dark mx-auto">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <a href="#" class="btn btn-primary">Button</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <img src="/image/bougie.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="/image/pot-de-miel.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+{% endblock %}

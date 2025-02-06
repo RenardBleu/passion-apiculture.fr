@@ -1,0 +1,50 @@
+{% extends "base.twig" %}
+{% set admin = 'active-admin' %}
+{% block title %} {{ parent() }} Administration | produit {% endblock %}
+{% block contenu %}
+    <div class="sec1-title d-flex w-100 justify-content-center p-5">
+        <h1><i class="bi bi-cart-fill"></i> Liste des produits</h1>
+    </div>
+    <div class="table-responsive w-75 m-auto">
+    <div class="container text-center">
+        <div class="row row-cols-4 gap-5 justify-content-center align-items-center">
+            {% for p in liste %}
+                {% if p.deleteAt == null %}
+                    <div class="card p-0" style="width: 18rem;">
+                        <div class="banner-img-article">
+                            {% if p.miniature == null %}
+                                <div class="bg-no-minia justify-content-center align-items-center d-flex">
+                                    <i class="bi bi-image-fill" style="font-size: 5rem;"></i>
+                                </div>
+                            {% else %}
+                                <img src="{{p.miniature}}" class="card-img-top" alt="...">
+                            {% endif %}
+                        </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{p.title}}</h5>
+                                <p class="card-text">{{p.description}}</p>
+                            </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">prix : {{p.prix}} €</li>
+                            <li class="list-group-item">Type : {{p.libelletype}}</li>
+                            <li class="list-group-item">dernière modification le : <br>{{p.updateAt}}</li>
+                        </ul>
+                        <div class="card-body">
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                <button type="button" class="btn btn-danger">Supprimer</button>
+                                <button type="button" class="btn btn-warning">Modifier</button>
+                                <button type="button" class="btn btn-success">Voir</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <a href="index.php?page=admin-produit-add" class="max-content-height btn btn-primary btn-lg d-flex justify-content-center align-items-center" style="width: 18rem;">
+                <div>
+                    <i class="bi bi-plus-circle-fill" style="font-size: 4rem;"></i>
+                    <h4>Ajouter un article</h4>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="icon" href="/image/logo-site.png">
+
+        <title>{% block title %} SHOP-SHOP - {% endblock %} </title>
+    </head>
+    <body style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-dark navbar-expand-lg fixed-top z-index-100">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center text-dark" href="index.php">
+                    <img src="/image/logo.svg" alt="logo site" class="m-10" style="width: 60px">
+                    <h4>Passion apiculture</h4>
+                </a>
+                <button class="navbar-toggler text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item {{ acceuil|default(' ') }}">
+                                <a class="nav-link text-dark" aria-current="page" href="index.php">Accueil</a>
+                            </li>
+                            <li class="nav-item {{ contact|default(' ') }}">
+                                <a class="nav-link text-dark" href="index.php?page=contact">Contact</a>
+                            </li>
+                            <li class="nav-item {{ legal|default(' ') }}">
+                                <a class="nav-link text-dark" href="index.php?page=legal">Mention légale</a>
+                            </li>
+                            {% if session.role == 1 %}
+                                <li class="nav-item dropdown admin-dropdown {{ admin|default(' ') }}">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Administration
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item text-dark" href="index.php?page=admin-produits">Produit</a></li>
+                                        <li><a class="dropdown-item text-dark" href="#">Type</a></li>
+                                        <li><a class="dropdown-item text-dark" href="index.php?page=admin-users">Utilisateur</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="d-flex align-items-center align-content-center">
+                        <ul class="navbar-nav align-items-center align-content-center">
+                            {%if session.login is defined %}
+                                <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=logout">Se déconnecter</a></li>
+                                <li class="nav-item d-flex flex-column align-items-end">
+                                    <p class="m-0">{{session.fname}}</p>
+                                    {% if session.role == 1 %}
+                                    <p class="admin m-0">Admin</p>
+                                    {% endif %}
+                                </li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=login">Se connecter</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=inscrire">S'inscrire</a></li>
+                            {% endif %}
+
+                            <li class="nav-item">
+                                <a class="nav-link-icon text-dark" href="#"><i class="bi bi-person-circle"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    99+<span class="visually-hidden">unread messages</span>
+                                </span>
+                                <a class="nav-link-icon text-dark" href=""><i class="bi bi-cart-fill"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <main>
+            {% block contenu %}
+            {% endblock %}
+        </main>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <symbol id="check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </symbol>
+            <symbol id="info-fill" viewBox="0 0 16 16">
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+            </symbol>
+            <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </symbol>
+        </svg>
+    </body>
+</html>

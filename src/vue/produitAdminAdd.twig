@@ -1,0 +1,159 @@
+{% extends "base.twig" %}
+{% set admin = 'active-admin' %}
+{% block title %} {{ parent() }} Administration | produit {% endblock %}
+{% block contenu %}
+    {% if form.valide is defined %}
+    {% if form.valide == true %}
+        <div id="liveAlertPlaceholder"></div>
+        <script>
+            const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+            appendAlert = (message, type) => {
+                const wrapper = document.createElement('div')
+                wrapper.innerHTML = [
+                    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                    `   <div>${message}</div>`,
+                    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                    '</div>'
+                ].join('')
+
+                alertPlaceholder.append(wrapper)
+            }
+            appendAlert('Produit enregisré avec succé !', 'success');
+        </script>
+        <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
+            <div class="card m-auto card-form">
+                <h5 class="card-header p-4"><i class="bi bi-cart-fill"></i> Ajouter un nouveau produit succé</h5>
+                <div class="card-body p-4">
+
+                    <form class="row g-2" action="index.php?page=admin-produit-add" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="col-md-6">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom du produit" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="prix" class="form-label">prix</label>
+                            <input name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="description">Description</label>
+                            <textarea name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputState" class="form-label">Type</label>
+                            <select class="form-select" aria-label="Default select example" name="type" required>
+                                <option selected value="0">Type du produit</option>
+                                {% for p in liste %}
+                                    <option value="{{ p.id }}">{{ p.libelle }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-8 pb-4">
+                            <label for="formFile" class="form-label">Miniature du produit</label>
+                            <input name="miniature" class="form-control" type="file" id="formFile">
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block mt-3 d-flex justify-content-center align-items-center" type="submit" name="btAdd">
+                            <i class="bi bi-plus-circle-fill px-3" style="font-size: 2rem;"></i><p class="m-0">Ajouter l'article</p>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div id="liveAlertPlaceholder"></div>
+        <script>
+            const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+            appendAlert = (message, type) => {
+                const wrapper = document.createElement('div')
+                wrapper.innerHTML = [
+                    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                    //`   <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>`
+                    `   <div><h4>Echec lors de l'inscription</h4><p>Erreur : ${message}</p></div>`,
+                    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                    '</div>'
+                ].join('')
+
+                alertPlaceholder.append(wrapper)
+            }
+            appendAlert('{{form.message}}', 'danger');
+        </script>
+
+        <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
+            <div class="card m-auto card-form">
+                <h5 class="card-header p-4"><i class="bi bi-cart-fill"></i> Ajouter un nouveau produit erreur</h5>
+                <div class="card-body p-4">
+
+                    <form class="row g-2" action="index.php?page=admin-produit-add" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="col-md-6">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom du produit" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="prix" class="form-label">prix</label>
+                            <input name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="description">Description</label>
+                            <textarea name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputState" class="form-label">Type</label>
+                            <select class="form-select" aria-label="Default select example" name="type" required>
+                                <option selected value="0">Type du produit</option>
+                                {% for p in liste %}
+                                    <option value="{{ p.id }}">{{ p.libelle }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-8 pb-4">
+                            <label for="formFile" class="form-label">Miniature du produit</label>
+                            <input name="miniature" class="form-control" type="file" id="formFile">
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block mt-3 d-flex justify-content-center align-items-center" type="submit" name="btAdd">
+                            <i class="bi bi-plus-circle-fill px-3" style="font-size: 2rem;"></i><p class="m-0">Ajouter l'article</p>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% else %}
+        <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
+            <div class="card m-auto card-form">
+                <h5 class="card-header p-4"><i class="bi bi-cart-fill"></i> Ajouter un nouveau produit normale</h5>
+                <div class="card-body p-4">
+
+                    <form class="row g-2" action="index.php?page=admin-produit-add" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="col-md-6">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom du produit" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="prix" class="form-label">prix</label>
+                            <input name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="description">Description</label>
+                            <textarea name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputState" class="form-label">Type</label>
+                            <select class="form-select" aria-label="Default select example" name="type" required>
+                                <option selected value="0">Type du produit</option>
+                                {% for p in liste %}
+                                    <option value="{{ p.id }}">{{ p.libelle }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-8 pb-4">
+                            <label for="formFile" class="form-label">Miniature du produit</label>
+                            <input name="miniature" class="form-control" type="file" id="formFile">
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block mt-3 d-flex justify-content-center align-items-center" type="submit" name="btAdd">
+                            <i class="bi bi-plus-circle-fill px-3" style="font-size: 2rem;"></i><p class="m-0">Ajouter l'article</p>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

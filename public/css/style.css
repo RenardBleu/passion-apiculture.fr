@@ -27,6 +27,14 @@
     border-color: var(--primary-color-focus-border)!important;
     box-shadow: 0 0 0 .25rem var(--primary-color-focus-border)!important;
 }
+.form-select:focus{
+    border-color: var(--primary-color-focus-border)!important;
+    box-shadow: 0 0 0 .25rem var(--primary-color-focus-border)!important;
+}
+.btn:focus{
+    border-color: var(--primary-color-focus-border)!important;
+    box-shadow: 0 0 0 .25rem var(--primary-color-focus-border)!important;
+}
 .btn-primary:hover{
     background-color: var(--primary-color-hover)!important;
     border-color: var(--primary-color-hover)!important;
@@ -56,6 +64,14 @@
     margin: 0 5px;
     border-radius: 50px!important;
     background: var(--primary-color)!important;
+}
+
+.active-admin > .nav-link{
+    padding: 8px 15px !important;
+    margin: 0 5px;
+    border-radius: 50px!important;
+    background: var(--bs-danger)!important;
+    color: #fff !important;
 }
 .navbar .nav-item .nav-link:hover{
     padding: 8px 20px;
@@ -199,4 +215,23 @@ tbody, td, tfoot, th, thead, tr{
 
 nav .nav-item .admin{
     color: var(--bs-danger);
+}
+
+.banner-img-article{
+    overflow: hidden;
+    height: 12rem;
+    display: flex;
+    width: 18rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.max-content-height{
+    height: max-content;
+}
+
+.bg-no-minia{
+    background: var(--bg-secondaire);
+    width: 100%;
+    height: 100%;
 }

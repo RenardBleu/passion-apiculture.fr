@@ -7,11 +7,15 @@
         $lesPages['inscrire'] = "inscrireControleur";
         $lesPages['login'] = "loginControleur";
         $lesPages['logout'] = "logoutControleur";
+        $lesPages['user-edit'] = "userEditControleur";
         $lesPages['admin-users'] = "AdminUsersControleur";
+        $lesPages['admin-produits'] = "AdminProduitControleur";
+        $lesPages['admin-produit-add'] = "AdminProduitAddControleur";
         $lesPages['maintenance'] = "maintenanceControleur";
             if($db != null){
                 if (isset($_GET['page'])){
                     $page = $_GET['page'];
+                    
                 } else {
                     $page = 'accueil';
                 }
@@ -26,4 +30,3 @@
             }
         return $contenu;
     }
-?>

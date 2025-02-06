@@ -1,5 +1,9 @@
 {
     "require": {
-        "twbs/bootstrap": "5.3.3"
+        "twbs/bootstrap": "5.3.3",
+        "vlucas/phpdotenv": "*"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^7.2"
     }
 }
