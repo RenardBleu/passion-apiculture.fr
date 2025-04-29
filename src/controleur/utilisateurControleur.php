@@ -119,13 +119,27 @@ function userEditControleur($twig, $db){
             $role = $_POST['role'];
             $id = $_GET['id'];
             $form['valide'] = true;
+            $inputPassword = $_POST['inputPassword'];
+            $inputPassword2 = $_POST['inputPassword2'];
 
-            try{
-                $utilisateur->update($id, $role, $nom, $prenom);
-                $form['message'] = 'Modification réussie';
-            }catch(e){
+            if($inputPassword!=$inputPassword2){
                 $form['valide'] = false;
-                $form['message'] = 'Echec de la modification';
+                $form['message'] = 'Les mots de passe sont différents';
+            }else{
+
+                try{
+                    if($inputPassword == ""){
+                        $mdp = $unUtilisateur['mdp'];
+                    }else{
+                        $mdp = password_hash($inputPassword, PASSWORD_DEFAULT);
+                    }
+                    $utilisateur->update($id, $role, $nom, $prenom, $mdp);
+                    $form['message'] = 'Modification réussie';
+                    var_dump($mdp, !isset($inputPassword));
+                }catch(e){
+                    $form['valide'] = false;
+                    $form['message'] = 'Echec de la modification';
+                }
             }
         }
     }

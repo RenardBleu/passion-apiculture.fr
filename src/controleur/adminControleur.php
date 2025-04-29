@@ -59,3 +59,55 @@ function AdminProduitAddControleur($twig, $db){
         header("Location:index.php");
     }
 }
+
+
+function produitEditControleur($twig, $db){
+    $form = array();
+    if($_GET['id'] !=""){
+        $utilisateur = new Utilisateur($db);
+        $unUtilisateur = $utilisateur->selectById($_GET['id']); 
+        if ($unUtilisateur!=null){
+            $form['utilisateur'] = $unUtilisateur;
+            $role = new Role($db);
+            $liste = $role->select();
+            $form['roles']=$liste;
+        }
+        else{
+            $form['message'] = 'Utilisateur incorrect';
+        }
+        if(isset($_POST['btEdit'])){
+            $utilisateur = new Utilisateur($db);
+            $nom = $_POST['nom'];
+            $prenom = $_POST['prenom'];
+            $role = $_POST['role'];
+            $id = $_GET['id'];
+            $form['valide'] = true;
+            $inputPassword = $_POST['inputPassword'];
+            $inputPassword2 = $_POST['inputPassword2'];
+
+            if($inputPassword!=$inputPassword2){
+                $form['valide'] = false;
+                $form['message'] = 'Les mots de passe sont différents';
+            }else{
+
+                try{
+                    if($inputPassword == ""){
+                        $mdp = $unUtilisateur['mdp'];
+                    }else{
+                        $mdp = password_hash($inputPassword, PASSWORD_DEFAULT);
+                    }
+                    $utilisateur->update($id, $role, $nom, $prenom, $mdp);
+                    $form['message'] = 'Modification réussie';
+                    var_dump($mdp, !isset($inputPassword));
+                }catch(e){
+                    $form['valide'] = false;
+                    $form['message'] = 'Echec de la modification';
+                }
+            }
+        }
+    }
+    else{
+        $form['message'] = 'Utilisateur non précisé';
+    }
+    echo $twig->render('produitEdit.twig', array('form'=>$form));
+}

@@ -15,8 +15,8 @@ class Utilisateur
         $this->insert = $this->db->prepare("insert into users(email, mdp, nom, prenom, idRole) values (:email, :mdp, :nom, :prenom, :role)"); // Étape 2
         $this->connect = $this->db->prepare("select email, idRole, nom, prenom, mdp, deleteAt from users where email=:email");
         $this->select = $db->prepare("select u.id, email, idRole, nom, prenom, updateAt, deleteAt, r.libelle as libellerole from users u, role r where u.idRole = r.id order by nom");
-        $this->selectById = $db->prepare("select u.id, email, idRole, nom, prenom, updateAt, deleteAt, r.libelle as libellerole from users u, role r where u.id=:id");
-        $this->update = $db->prepare("update users set nom=:nom, prenom=:prenom, idRole=:role where id=:id");
+        $this->selectById = $db->prepare("select u.id, email, idRole, nom, prenom, mdp, updateAt, deleteAt, r.libelle as libellerole from users u, role r where u.id=:id");
+        $this->update = $db->prepare("update users set nom=:nom, prenom=:prenom, idRole=:role, mdp=:mdp, updateAt=now() where id=:id");
     }
 
     public function insert($email, $mdp, $nom, $prenom, $role)
@@ -54,12 +54,12 @@ class Utilisateur
         return $this->selectById->fetch();
     }
 
-    public function update($id, $role, $nom, $prenom){
+    public function update($id, $role, $nom, $prenom, $mdp){
         $r = true;
-        $this->update->execute(array(':id'=>$id, ':role'=>$role, ':nom'=>$nom, ':prenom'=>$prenom));
+        $this->update->execute(array(':id'=>$id, ':role'=>$role, ':nom'=>$nom, ':prenom'=>$prenom, ':mdp'=>$mdp));
         if ($this->update->errorCode()!=0){ print_r($this->update->errorInfo());
         $r=false;
         }
         return $r;
-       }
+    }
 }

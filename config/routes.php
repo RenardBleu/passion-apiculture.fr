@@ -8,6 +8,7 @@
         $lesPages['login'] = "loginControleur";
         $lesPages['logout'] = "logoutControleur";
         $lesPages['user-edit'] = "userEditControleur";
+        $lesPages['produit-edit'] = "produitEditControleur";
         $lesPages['admin-users'] = "AdminUsersControleur";
         $lesPages['admin-produits'] = "AdminProduitControleur";
         $lesPages['admin-produit-add'] = "AdminProduitAddControleur";
