@@ -1,8 +1,8 @@
 {% extends "base.twig" %}
 {% block title %} {{ parent() }} Modifier Produit{% endblock %}
 {% block contenu %}
-    {% if form.utilisateur is defined %}
-    {% if form.utilisateur != null %}
+    {% if form.produit is defined %}
+    {% if form.produit != null %}
         {% if from.valide is defined %}
             {% if form.valide == true %}
                 <div id="liveAlertPlaceholder"></div>
@@ -45,29 +45,35 @@
                 <div class="card m-auto card-form">
                     <h5 class="card-header p-4">Modification du produit</h5>
                     <div class="card-body p-4">
-                        <form action="index.php?page=user-edit&id={{ form.utilisateur.id }}" method="post" enctype="application/x-www-form-urlencoded">
-                            <label for="nom" class="sr-only">Nom:</label>
-                            <input value="{{ form.utilisateur.nom }}" type="text" id="nom" name="nom" class="form-control" placeholder="Nom" required autofocus>
-                            
-                            <label for="prenom" class="sr-only">Prenom:</label>
-                            <input value="{{ form.utilisateur.prenom }}" type="text" id="prenom" name="prenom" class="form-control" placeholder="Prenom" required autofocus>
-                            
-                            <label for="inputPassword" class="sr-only mt-3">Mot de passe:</label>
-                            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Nouveau mot de passe">
-                            
-                            <label for="inputPassword2" class="sr-only mt-3">Mot de passe:</label>
-                            <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" placeholder="Confirmation nouveau mot depasse">
-                            
-                            <select class="form-control mt-3" name="role">
-                                {% for r in form.roles %}
-                                    {% if r.id == form.utilisateur.idRole %}
-                                        <option value="{{ r.id }}" selected>{{ r.libelle }}</option>
-                                    {% else %}
-                                        <option value="{{ r.id }}">{{ r.libelle }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                            
+                        <form action="index.php?page=user-edit&id={{ form.produit.id }}" method="post" enctype="application/x-www-form-urlencoded">
+                            <div class="col-md-6">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input value="{{ form.produit.title }}" name="title" type="text" class="form-control" id="nom" placeholder="Nom du produit" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="prix" class="form-label">prix</label>
+                                <input value="{{ form.produit.prix }}" name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="description">Description</label>
+                                <textarea value="{{ form.produit.description }}" name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inputState" class="form-label">Type</label>
+                                <select class="form-control mt-3" name="role">                                        
+                                    {% for t in form.type %}
+                                        {% if t.id == form.produit.idType %}
+                                            <option value="{{ t.id }}" selected>{{ t.libelle }}</option>
+                                        {% else %}
+                                            <option value="{{ t.id }}">{{ t.libelle }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-8 pb-4">
+                                <label for="formFile" class="form-label">Miniature du produit</label>
+                                <input name="miniature" class="form-control" type="file" id="formFile">
+                            </div>
                             <button class="btn btn-lg btn-primary btn-block mt-3" type="submit" name="btEdit">Modifier</button>
                         </form>
                     </div>

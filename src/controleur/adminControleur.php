@@ -64,50 +64,43 @@ function AdminProduitAddControleur($twig, $db){
 function AdminProduitEditControleur($twig, $db){
     $form = array();
     if($_GET['id'] !=""){
-        $utilisateur = new Utilisateur($db);
-        $unUtilisateur = $utilisateur->selectById($_GET['id']); 
-        if ($unUtilisateur!=null){
-            $form['utilisateur'] = $unUtilisateur;
-            $role = new Role($db);
-            $liste = $role->select();
-            $form['roles']=$liste;
+        $produit = new Produit($db);
+        $unProduit = $produit->produit($_GET['id']); 
+        if ($unProduit!=null){
+            $form['produit'] = $unProduit;
+            $type = new Type($db);
+            $liste = $type->select();
+            $form['type']=$liste;
         }
         else{
-            $form['message'] = 'Utilisateur incorrect';
+            $form['message'] = 'Produit incorrect ou inconnu';
         }
         if(isset($_POST['btEdit'])){
-            $utilisateur = new Utilisateur($db);
-            $nom = $_POST['nom'];
-            $prenom = $_POST['prenom'];
-            $role = $_POST['role'];
+            $produit = new Produit($db);
             $id = $_GET['id'];
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+            $prix = $_POST['prix'];
+            $miniature = $_POST['miniature'];
+            $type = $_POST['type'];
             $form['valide'] = true;
-            $inputPassword = $_POST['inputPassword'];
-            $inputPassword2 = $_POST['inputPassword2'];
 
-            if($inputPassword!=$inputPassword2){
-                $form['valide'] = false;
-                $form['message'] = 'Les mots de passe sont différents';
-            }else{
-
-                try{
-                    if($inputPassword == ""){
-                        $mdp = $unUtilisateur['mdp'];
-                    }else{
-                        $mdp = password_hash($inputPassword, PASSWORD_DEFAULT);
-                    }
-                    $utilisateur->update($id, $role, $nom, $prenom, $mdp);
-                    $form['message'] = 'Modification réussie';
-                    var_dump($mdp, !isset($inputPassword));
-                }catch(e){
-                    $form['valide'] = false;
-                    $form['message'] = 'Echec de la modification';
+            try{
+                if($miniature == ""){
+                    $minia = $produit['miniature'];
+                }else{
+                    $minia = $miniature;
                 }
+                $produit->update($id, $title, $description, $prix, $minia, $type,);
+                $form['message'] = 'Modification réussie';
+            }catch(e){
+                $form['valide'] = false;
+                $form['message'] = 'Echec de la modification';
             }
         }
     }
     else{
-        $form['message'] = 'Utilisateur non précisé';
+        $form['message'] = 'Produit non précisé';
     }
     echo $twig->render('produitEdit.twig', array('form'=>$form));
 }
