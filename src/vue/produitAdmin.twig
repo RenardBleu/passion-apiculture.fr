@@ -2,6 +2,43 @@
 {% set admin = 'active-admin' %}
 {% block title %} {{ parent() }} Administration | produit {% endblock %}
 {% block contenu %}
+    {% if from.valide is defined %}
+            {% if form.valide == true %}
+                <div id="liveAlertPlaceholder"></div>
+                <script>
+                    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                    appendAlert = (message, type) => {
+                        const wrapper = document.createElement('div')
+                        wrapper.innerHTML = [
+                            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                            `   <div>${message}</div>`,
+                            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                            '</div>'
+                        ].join('')
+
+                        alertPlaceholder.append(wrapper)
+                    }
+                    appendAlert('Produit supprimé avec succès !', 'success');
+                </script>
+            {% else %}
+                <div id="liveAlertPlaceholder"></div>
+                <script>
+                    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                    appendAlert = (message, type) => {
+                        const wrapper = document.createElement('div')
+                        wrapper.innerHTML = [
+                            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                            `   <div>${message}</div>`,
+                            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                            '</div>'
+                        ].join('')
+
+                        alertPlaceholder.append(wrapper)
+                    }
+                    appendAlert('Erreur : {{ form.message }}', 'danger');
+                </script>
+            {% endif %}
+        {% endif %}
     <div class="sec1-title d-flex w-100 justify-content-center p-5">
         <h1><i class="bi bi-cart-fill"></i> Liste des produits</h1>
     </div>
@@ -21,8 +58,7 @@
                             {% endif %}
                         </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{p.title}}</h5>
-                                <p class="card-text">{{p.description}}</p>
+                                <h5 class="card-title title-card-product">{{p.title}}</h5>
                             </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">prix : {{p.prix}} €</li>
@@ -31,8 +67,8 @@
                         </ul>
                         <div class="card-body">
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-danger">Supprimer</button>
-                                <button type="button" class="btn btn-warning">Modifier</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="{{p.id}}" data-bs-name="{{p.title}}">Supprimer</button>
+                                <a href="index.php?page=admin-produit-edit&id={{p.id}}" class="btn btn-warning">Modifier</a>
                                 <button type="button" class="btn btn-success">Voir</button>
                             </div>
                         </div>
@@ -45,6 +81,28 @@
                     <h4>Ajouter un article</h4>
                 </div>
             </a>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog alert-danger">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Vous allez supprimer un produit</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <p>Attention vous allez supprimer le produit :<br><b id="product-delete-name"></b> !<br>Les clients et vous ne verrez donc plus le produit.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btn-delete-product" href="#" class="btn btn-danger">Supprimer</a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

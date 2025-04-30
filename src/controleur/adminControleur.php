@@ -61,7 +61,7 @@ function AdminProduitAddControleur($twig, $db){
 }
 
 
-function produitEditControleur($twig, $db){
+function AdminProduitEditControleur($twig, $db){
     $form = array();
     if($_GET['id'] !=""){
         $utilisateur = new Utilisateur($db);
@@ -110,4 +110,23 @@ function produitEditControleur($twig, $db){
         $form['message'] = 'Utilisateur non précisé';
     }
     echo $twig->render('produitEdit.twig', array('form'=>$form));
+}
+
+
+function AdminProduitDeleteControleur($twig, $db){
+    if ($_SESSION["role"] == 1){
+
+        if($_GET['id'] !=""){
+            $produit = new Produit($db);
+            try{
+                $produit->deleteById($_GET['id']);
+            }
+            catch(Exception $e){}
+            header("Location:index.php?page=admin-produits");
+        }else{
+            header("Location:index.php?page=admin-produits");
+        }
+    }else{
+        header("Location:index.php");
+    }
 }

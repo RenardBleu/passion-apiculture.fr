@@ -19,7 +19,7 @@
 
                         alertPlaceholder.append(wrapper)
                     }
-                    appendAlert('Utilisateur modifier avec succès !', 'success');
+                    appendAlert('Produit modifier avec succès !', 'success');
                 </script>
             {% else %}
                 <div id="liveAlertPlaceholder"></div>
@@ -43,7 +43,7 @@
     {% endif %}
     <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
                 <div class="card m-auto card-form">
-                    <h5 class="card-header p-4">Modification d'utilisateur</h5>
+                    <h5 class="card-header p-4">Modification du produit</h5>
                     <div class="card-body p-4">
                         <form action="index.php?page=user-edit&id={{ form.utilisateur.id }}" method="post" enctype="application/x-www-form-urlencoded">
                             <label for="nom" class="sr-only">Nom:</label>

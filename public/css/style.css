@@ -235,3 +235,9 @@ nav .nav-item .admin{
     width: 100%;
     height: 100%;
 }
+
+.title-card-product{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap-mode: nowrap;
+}

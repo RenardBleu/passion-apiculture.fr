@@ -8,10 +8,11 @@
         $lesPages['login'] = "loginControleur";
         $lesPages['logout'] = "logoutControleur";
         $lesPages['user-edit'] = "userEditControleur";
-        $lesPages['produit-edit'] = "produitEditControleur";
         $lesPages['admin-users'] = "AdminUsersControleur";
         $lesPages['admin-produits'] = "AdminProduitControleur";
         $lesPages['admin-produit-add'] = "AdminProduitAddControleur";
+        $lesPages['admin-produit-delete'] = "AdminProduitDeleteControleur";
+        $lesPages['admin-produit-edit'] = "AdminProduitEditControleur";
         $lesPages['maintenance'] = "maintenanceControleur";
             if($db != null){
                 if (isset($_GET['page'])){

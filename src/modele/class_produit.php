@@ -5,6 +5,7 @@ class Produit
     private $insert;
     private $produit;
     private $select;
+    private $deleteById;
 
     public function __construct($db)
     {
@@ -12,6 +13,7 @@ class Produit
         $this->insert = $this->db->prepare("insert into produit(title, description, prix, idType, miniature) values (:title, :description, :prix, :type, :miniature)"); // Étape 2
         $this->produit = $this->db->prepare("select title, desciption, prix, idType, miniature, updateAt, deleteAt from produit where id=:id");
         $this->select = $db->prepare("select p.id, title, description, prix, miniature, updateAt, deleteAt, t.libelle as libelletype from produit p, type t where p.idType = t.id order by title");
+        $this->deleteById = $db->prepare("update produit set deleteAt=now() where id=:id");
     }
 
     public function insert($title, $description, $prix, $type, $miniature)
@@ -40,5 +42,13 @@ class Produit
             print_r($this->select->errorInfo());
         }
         return $this->select->fetchAll();
+    }
+
+    public function deleteById($id){
+        $this->deleteById->execute(array(':id' => $id));
+        if ($this->deleteById->errorCode()!=0){
+            print_r($this->deleteById->errorInfo());
+        }
+        return $this->deleteById->fetch();
     }
 }
