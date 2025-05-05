@@ -152,6 +152,7 @@ function AdminTypeDeleteControleur($twig, $db){
 
         if($_GET['id'] !=""){
             $type = new Type($db);
+            $form['delete_succes'] = true;
             try{
                 $type->deleteById($_GET['id']);
             }
@@ -159,8 +160,35 @@ function AdminTypeDeleteControleur($twig, $db){
                 $form['delete_succes'] = false;
                 $form['message'] = 'Echec de la suppression';
             }
-            $form['delete_succes'] = true;
             $liste = $type->select();
+            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+        }else{
+            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+        }
+    }else{
+        header("Location:index.php");
+    }
+}
+
+function AdminTypeAddControleur($twig, $db){
+    if ($_SESSION["role"] == 1){
+
+        $form = array();
+        $type = new Type($db);
+
+        if(isset($_POST['btAdd'])){
+            $type = new Type($db);
+            $libelle = $_POST['libelle'];
+            $form['add_succes'] = true;
+            try{
+                $type->insert($libelle);
+            }
+            catch(Exception $e){
+                $form['add_succes'] = false;
+                $form['message'] = 'Echec ajout du type :'.$e;
+            }
+            $liste = $type->select();
+            dump($form, $libelle, $_POST);
             echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
         }else{
             echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));

@@ -40,3 +40,9 @@ if (deleteModalType) {
     modalTypeBtn.href = `index.php?page=admin-type-delete&id=${idType}`
   })
 }
+
+if (addModalType) {
+  addModalType.addEventListener('show.bs.modal', event => {
+
+  })
+}

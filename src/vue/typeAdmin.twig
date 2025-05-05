@@ -3,12 +3,6 @@
 {% block title %} {{ parent() }} Administration | utilisateur {% endblock %}
 {% block contenu %}
 
-{% if form.delete_succes is defined %}
-    <p>Test</p>
-    {% else %}
-    <p>y a pas</p>
-{% endif %}
-
     {% if form.delete_succes is defined %}
         <div id="liveAlertPlaceholder"></div>
         {% if form.delete_succes %}
@@ -24,18 +18,56 @@
                     ].join('')
                     alertPlaceholder.append(wrapper)
                 }
-                appendAlert('Produit supprimé avec succès !', 'success');
+                appendAlert('Type supprimé avec succès !', 'success');
             </script>
         {% else %}
             <script>
                 const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
                 appendAlert = (message, type) => {
-                    const wrapper = document.createElement('div')                        wrapper.innerHTML = [
+                    const wrapper = document.createElement('div')                        
+                    wrapper.innerHTML = [
                         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
                         `   <div>${message}</div>`,
                         '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
                         '</div>'
                     ].join('')
+                    alertPlaceholder.append(wrapper)
+                }
+                appendAlert('Erreur : {{ form.message }}', 'danger');
+            </script>
+        {% endif %}
+    {% endif %}
+
+{% if form.add_succes is defined %}
+        <div id="liveAlertPlaceholder"></div>
+        <p>test</p>
+        {% if form.add_succes %}
+            <script>
+                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                appendAlert = (message, type) => {
+                    const wrapper = document.createElement('div')
+                    wrapper.innerHTML = [
+                    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                        `   <div>${message}</div>`,
+                        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                        '</div>'
+                    ].join('')
+                    alertPlaceholder.append(wrapper)
+                }
+                appendAlert('Type créé avec succès !', 'success');
+            </script>
+        {% else %}
+        <p>test</p>
+            <script>
+                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                appendAlert = (message, type) => {
+                    const wrapper = document.createElement('div')                        
+                        wrapper.innerHTML = [
+                            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                            `   <div>${message}</div>`,
+                            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                            '</div>'
+                        ].join('')
                     alertPlaceholder.append(wrapper)
                 }
                 appendAlert('Erreur : {{ form.message }}', 'danger');
@@ -73,7 +105,7 @@
         {% endfor %}
         <tr>
             <td colspan="4" class="text-center">
-                <button type="button" class="btn btn-primary w-100 align-items-center d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#add-type-modal"><i class="bi bi-plus-circle-fill m-2" style="font-size: 1.5rem;"></i>Ajouter un type</button>
+                <button type="button" class="btn btn-primary w-100 align-items-center d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#addModalType"><i class="bi bi-plus-circle-fill m-2" style="font-size: 1.5rem;"></i>Ajouter un type</button>
             </td>
         </tbody>
     </table>
@@ -87,12 +119,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="libelle" class="col-form-label">Nom du type:</label>
-                            <input type="text" class="form-control" id="libelle">
-                        </div>
-                    </form>
+                    <div class="modal-body">
+                        <p>Attention vous allez supprimer le type :<br><b id="type-delete-name"></b> !<br>Les clients et vous ne verrez donc plus ce type.</p>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -102,23 +131,25 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="addModalType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog alert-danger">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Vous allez supprimer un type</h1>
+                    <h1 class="modal-title fs-5">Ajouter un nouveau type</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <form action="index.php?page=admin-type-add" method="post" enctype="application/x-www-form-urlencoded">
                     <div class="modal-body">
-                        <p>Attention vous allez supprimer le type :<br><b id="type-add-name"></b> !<br>Les clients et vous ne verrez donc plus ce type.</p>
+                        <div class="mb-3">
+                            <label for="libelle" class="col-form-label">Nom du type:</label>
+                            <input name'libelle' type="text" class="form-control" id="libelle">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" name="btAdd" class="btn btn-danger">Ajouter</button>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <a id="btn-add-type" href="#" class="btn btn-danger">Supprimer</a>
-                </div>
+                </form>
             </div>
         </div>
     </div>
