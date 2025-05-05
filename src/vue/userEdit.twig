@@ -2,86 +2,96 @@
 {% block title %} {{ parent() }}S'inscrire {% endblock %}
 {% block contenu %}
     {% if form.utilisateur is defined %}
-    {% if form.utilisateur != null %}
-        {% if from.valide is defined %}
-            {% if form.valide == true %}
-                <div id="liveAlertPlaceholder"></div>
-                <script>
-                    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                    appendAlert = (message, type) => {
-                        const wrapper = document.createElement('div')
-                        wrapper.innerHTML = [
-                            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                            `   <div>${message}</div>`,
-                            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                            '</div>'
-                        ].join('')
+        {% if form.utilisateur != null %}
+            {% if form.valide is defined %}
+                {% if form.valide %}
+                    <div id="liveAlertPlaceholder"></div>
+                    <script>
+                        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                        appendAlert = (message, type) => {
+                            const wrapper = document.createElement('div')
+                            wrapper.innerHTML = [
+                                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                                `   <div>${message}</div>`,
+                                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                                '</div>'
+                            ].join('')
 
-                        alertPlaceholder.append(wrapper)
-                    }
-                    appendAlert('Utilisateur modifier avec succès !', 'success');
-                </script>
-            {% else %}
-                <div id="liveAlertPlaceholder"></div>
-                <script>
-                    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                    appendAlert = (message, type) => {
-                        const wrapper = document.createElement('div')
-                        wrapper.innerHTML = [
-                            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                            `   <div>${message}</div>`,
-                            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                            '</div>'
-                        ].join('')
+                            alertPlaceholder.append(wrapper)
+                        }
+                        appendAlert('Utilisateur modifier avec succès !', 'success');
+                    </script>
+                {% else %}
+                    <div id="liveAlertPlaceholder"></div>
+                    <script>
+                        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                        appendAlert = (message, type) => {
+                            const wrapper = document.createElement('div')
+                            wrapper.innerHTML = [
+                                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                                `   <div>${message}</div>`,
+                                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                                '</div>'
+                            ].join('')
 
-                        alertPlaceholder.append(wrapper)
-                    }
-                    appendAlert('Erreur : {{ form.message }}', 'danger');
-                </script>
+                            alertPlaceholder.append(wrapper)
+                        }
+                        appendAlert('Erreur : {{ form.message }}', 'danger');
+                    </script>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endif %}
-    <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
-                <div class="card m-auto card-form">
-                    <h5 class="card-header p-4">Modification d'utilisateur</h5>
-                    <div class="card-body p-4">
-                        <form action="index.php?page=user-edit&id={{ form.utilisateur.id }}" method="post" enctype="application/x-www-form-urlencoded">
-                            <label for="nom" class="sr-only">Nom:</label>
-                            <input value="{{ form.utilisateur.nom }}" type="text" id="nom" name="nom" class="form-control" placeholder="Nom" required autofocus>
-                            
-                            <label for="prenom" class="sr-only">Prenom:</label>
-                            <input value="{{ form.utilisateur.prenom }}" type="text" id="prenom" name="prenom" class="form-control" placeholder="Prenom" required autofocus>
-                            
-                            <label for="inputPassword" class="sr-only mt-3">Mot de passe:</label>
-                            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Nouveau mot de passe">
-                            
-                            <label for="inputPassword2" class="sr-only mt-3">Mot de passe:</label>
-                            <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" placeholder="Confirmation nouveau mot depasse">
-                            
-                            <select class="form-control mt-3" name="role">
-                                {% for r in form.roles %}
-                                    {% if r.id == form.utilisateur.idRole %}
-                                        <option value="{{ r.id }}" selected>{{ r.libelle }}</option>
-                                    {% else %}
-                                        <option value="{{ r.id }}">{{ r.libelle }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                            
-                            <button class="btn btn-lg btn-primary btn-block mt-3" type="submit" name="btEdit">Modifier</button>
-                        </form>
+        <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
+                    <div class="card m-auto card-form">
+                        <h5 class="card-header p-4">Modification d'utilisateur</h5>
+                        <div class="card-body p-4">
+                            <form action="index.php?page=user-edit&id={{ form.utilisateur.id }}" method="post" enctype="application/x-www-form-urlencoded">
+                                <label for="nom" class="sr-only">Nom:</label>
+                                <input value="{{ form.utilisateur.nom }}" type="text" id="nom" name="nom" class="form-control" placeholder="Nom" required autofocus>
+                                
+                                <label for="prenom" class="sr-only">Prenom:</label>
+                                <input value="{{ form.utilisateur.prenom }}" type="text" id="prenom" name="prenom" class="form-control" placeholder="Prenom" required autofocus>
+                                
+                                <label for="inputPassword" class="sr-only mt-3">Mot de passe:</label>
+                                <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Nouveau mot de passe">
+                                
+                                <label for="inputPassword2" class="sr-only mt-3">Mot de passe:</label>
+                                <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" placeholder="Confirmation nouveau mot depasse">
+                                
+                                <select class="form-control mt-3" name="role">
+                                    {% for r in form.roles %}
+                                        {% if r.id == form.utilisateur.idRole %}
+                                            <option value="{{ r.id }}" selected>{{ r.libelle }}</option>
+                                        {% else %}
+                                            <option value="{{ r.id }}">{{ r.libelle }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                
+                                <button class="btn btn-lg btn-primary btn-block mt-3" type="submit" name="btEdit">Modifier</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+            {% else %}
+                <div class="content-maintenance">
+                    <div class="content-img">
+                        <img src="image/user-search.png" alt="image de maintenance du site">
+                    </div>
+                    <div class="titre-maintenance">
+                        <h1 class="h1 fw-bold">Un problème est survenue</h1>
+                        <p>{{ form.message }}</p>
+                    </div>
+                </div>
+        {% endif %}
+        {% else %}
+            <div class="content-maintenance">
+                <div class="content-img">
+                    <img src="image/user-search.png" alt="image de maintenance du site">
+                </div>
+                <div class="titre-maintenance">
+                    <h1 class="h1 fw-bold">Un problème est survenue</h1>
+                    <p>{{ form.message }}</p>
+                </div>
             </div>
-    {% else %}
-        <div class="content-maintenance">
-            <div class="content-img">
-                <img src="image/user-search.png" alt="image de maintenance du site">
-            </div>
-            <div class="titre-maintenance">
-                <h1 class="h1 fw-bold">Un problème est survenue</h1>
-                <p>{{ form.message }}</p>
-            </div>
-        </div>
     {% endif %}
 {% endblock %}

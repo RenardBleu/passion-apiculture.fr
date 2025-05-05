@@ -12,7 +12,7 @@ class Produit
     {
         $this->db = $db;
         $this->insert = $this->db->prepare("insert into produit(title, description, prix, idType, miniature) values (:title, :description, :prix, :type, :miniature)"); // Étape 2
-        $this->produit = $this->db->prepare("select title, description, prix, idType, miniature, updateAt, deleteAt from produit where id=:id");
+        $this->produit = $this->db->prepare("select id,title, description, prix, idType, miniature, updateAt, deleteAt from produit where id=:id");
         $this->select = $db->prepare("select p.id, title, description, prix, miniature, updateAt, deleteAt, t.libelle as libelletype from produit p, type t where p.idType = t.id order by title");
         $this->deleteById = $db->prepare("update produit set deleteAt=now() where id=:id");
         $this->update = $db->prepare("update produit set title=:title, description=:description, prix=:prix, idType=:type, miniature=:miniature, updateAt=now() where id=:id");

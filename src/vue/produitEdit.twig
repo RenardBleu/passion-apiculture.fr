@@ -3,8 +3,8 @@
 {% block contenu %}
     {% if form.produit is defined %}
     {% if form.produit != null %}
-        {% if from.valide is defined %}
-            {% if form.valide == true %}
+        {% if form.valide is defined %}
+            {% if form.valide %}
                 <div id="liveAlertPlaceholder"></div>
                 <script>
                     const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
@@ -40,27 +40,26 @@
                 </script>
             {% endif %}
         {% endif %}
-    {% endif %}
     <div class="header-login w-100 p-3 align-items-center d-flex form-inscrit">
                 <div class="card m-auto card-form">
                     <h5 class="card-header p-4">Modification du produit</h5>
                     <div class="card-body p-4">
-                        <form action="index.php?page=user-edit&id={{ form.produit.id }}" method="post" enctype="application/x-www-form-urlencoded">
+                        <form action="index.php?page=admin-produit-edit&id={{ form.produit.id }}" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="col-md-6">
                                 <label for="nom" class="form-label">Nom</label>
                                 <input value="{{ form.produit.title }}" name="title" type="text" class="form-control" id="nom" placeholder="Nom du produit" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="prix" class="form-label">prix</label>
-                                <input value="{{ form.produit.prix }}" name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                                <input step="0.01" value="{{ form.produit.prix }}" name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
                             </div>
                             <div class="col-12">
                                 <label for="description">Description</label>
-                                <textarea value="{{ form.produit.description }}" name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
+                                <textarea name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required>{{ form.produit.description }}</textarea>
                             </div>
                             <div class="col-md-4">
                                 <label for="inputState" class="form-label">Type</label>
-                                <select class="form-control mt-3" name="role">                                        
+                                <select class="form-control mt-3" name="type">                                        
                                     {% for t in form.type %}
                                         {% if t.id == form.produit.idType %}
                                             <option value="{{ t.id }}" selected>{{ t.libelle }}</option>
@@ -80,14 +79,25 @@
                 </div>
             </div>
     {% else %}
-        <div class="content-maintenance">
-            <div class="content-img">
-                <img src="image/user-search.png" alt="image de maintenance du site">
+                <div class="content-maintenance">
+                    <div class="content-img">
+                        <img src="image/user-search.png" alt="image de maintenance du site">
+                    </div>
+                    <div class="titre-maintenance">
+                        <h1 class="h1 fw-bold">Un problème est survenue</h1>
+                        <p>{{ form.message }}</p>
+                    </div>
+                </div>
+        {% endif %}
+        {% else %}
+            <div class="content-maintenance">
+                <div class="content-img">
+                    <img src="image/user-search.png" alt="image de maintenance du site">
+                </div>
+                <div class="titre-maintenance">
+                    <h1 class="h1 fw-bold">Un problème est survenue</h1>
+                    <p>{{ form.message }}</p>
+                </div>
             </div>
-            <div class="titre-maintenance">
-                <h1 class="h1 fw-bold">Un problème est survenue</h1>
-                <p>{{ form.message }}</p>
-            </div>
-        </div>
     {% endif %}
 {% endblock %}

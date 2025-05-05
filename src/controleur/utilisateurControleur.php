@@ -135,7 +135,14 @@ function userEditControleur($twig, $db){
                     }
                     $utilisateur->update($id, $role, $nom, $prenom, $mdp);
                     $form['message'] = 'Modification réussie';
-                    var_dump($mdp, !isset($inputPassword));
+                    $utilisateur = new Utilisateur($db);
+                    $unUtilisateur = $utilisateur->selectById($_GET['id']); 
+                    if ($unUtilisateur!=null){
+                        $form['utilisateur'] = $unUtilisateur;
+                        $role = new Role($db);
+                        $liste = $role->select();
+                        $form['roles']=$liste;
+                    }
                 }catch(e){
                     $form['valide'] = false;
                     $form['message'] = 'Echec de la modification';

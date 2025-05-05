@@ -87,15 +87,23 @@ function AdminProduitEditControleur($twig, $db){
 
             try{
                 if($miniature == ""){
-                    $minia = $produit['miniature'];
+                    $minia = $form['produit']['miniature'];
                 }else{
                     $minia = $miniature;
                 }
-                $produit->update($id, $title, $description, $prix, $minia, $type,);
+                $produit->update($id, $title, $description, $prix, $type, $minia);
                 $form['message'] = 'Modification réussie';
-            }catch(e){
+            }catch(Exception $e){
                 $form['valide'] = false;
                 $form['message'] = 'Echec de la modification';
+            }
+            $produit = new Produit($db);
+            $unProduit = $produit->produit($_GET['id']); 
+            if ($unProduit!=null){
+                $form['produit'] = $unProduit;
+                $type = new Type($db);
+                $liste = $type->select();
+                $form['type']=$liste;
             }
         }
     }
