@@ -3,7 +3,13 @@
 {% block title %} {{ parent() }} Administration | utilisateur {% endblock %}
 {% block contenu %}
 
-    {% if from.delete_succes is defined %}
+{% if form.delete_succes is defined %}
+    <p>Test</p>
+    {% else %}
+    <p>y a pas</p>
+{% endif %}
+
+    {% if form.delete_succes is defined %}
         <div id="liveAlertPlaceholder"></div>
         {% if form.delete_succes %}
             <script>
@@ -57,7 +63,7 @@
                     <td>{{t.libelle}}</td><td>fgdgfdfgdfg</td><td>{{t.updateAt}}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idType="{{t.id}}" data-bs-nameType="{{t.libelle}}">Supprimer</button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idAddType="{{t.id}}" data-bs-nameType="{{t.libelle}}">Supprimer</button>
                             <a href="index.php?page=user-edit&id={{u.id}}" class="btn btn-warning">Modifier</a>
                             <button type="button" class="btn btn-success">Voir</button>
                         </div>
@@ -81,13 +87,37 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="modal-body">
-                        <p>Attention vous allez supprimer le type :<br><b id="type-delete-name"></b> !<br>Les clients et vous ne verrez donc plus ce type.</p>
-                    </div>
+                    <form>
+                        <div class="mb-3">
+                            <label for="libelle" class="col-form-label">Nom du type:</label>
+                            <input type="text" class="form-control" id="libelle">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <a id="btn-delete-type" href="#" class="btn btn-danger">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="addModalType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog alert-danger">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Vous allez supprimer un type</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <p>Attention vous allez supprimer le type :<br><b id="type-add-name"></b> !<br>Les clients et vous ne verrez donc plus ce type.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btn-add-type" href="#" class="btn btn-danger">Supprimer</a>
                 </div>
             </div>
         </div>

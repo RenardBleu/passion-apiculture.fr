@@ -149,7 +149,6 @@ function AdminTypeDeleteControleur($twig, $db){
 
         $form = array();
         $type = new Type($db);
-        $liste = $type->select();
 
         if($_GET['id'] !=""){
             $type = new Type($db);
@@ -161,9 +160,9 @@ function AdminTypeDeleteControleur($twig, $db){
                 $form['message'] = 'Echec de la suppression';
             }
             $form['delete_succes'] = true;
+            $liste = $type->select();
             echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
         }else{
-            header("Location:index.php?page=admin-types");
             echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
         }
     }else{
