@@ -1,0 +1,35 @@
+{% extends "base.twig" %}
+{% set admin = 'active-admin' %}
+{% block title %} {{ parent() }} Administration | utilisateur {% endblock %}
+{% block contenu %}
+    <div class="sec1-title d-flex w-100 justify-content-center p-5">
+        <h1><i class="bi bi-people-fill"></i> Liste des utilisateur</h1>
+    </div>
+    <div class="table-responsive w-75 m-auto">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Nombre de produit</th>
+            <th scope="col">Dernière modification</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for t in liste %}
+            <tr class="align-items-center">
+                {% if t.deleteAt == null %}
+                    <td>{{t.libelle}}</td><td>{{t.nbr_produit}}</td><td>{{t.updateAt}}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-danger">Supprimer</button>
+                            <a href="index.php?page=user-edit&id={{u.id}}" class="btn btn-warning">Modifier</a>
+                            <button type="button" class="btn btn-success">Voir</button>
+                        </div>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
