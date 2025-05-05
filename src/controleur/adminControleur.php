@@ -131,3 +131,42 @@ function AdminProduitDeleteControleur($twig, $db){
         header("Location:index.php");
     }
 }
+
+function AdminTypeControleur($twig, $db){
+    $form = array();
+    $type = new Type($db);
+    $liste = $type->select();
+
+    if ($_SESSION["role"] == 1){
+        echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+    }else{
+        header("Location:index.php");
+    }
+}
+
+function AdminTypeDeleteControleur($twig, $db){
+    if ($_SESSION["role"] == 1){
+
+        $form = array();
+        $type = new Type($db);
+        $liste = $type->select();
+
+        if($_GET['id'] !=""){
+            $type = new Type($db);
+            try{
+                $type->deleteById($_GET['id']);
+            }
+            catch(Exception $e){
+                $form['delete_succes'] = false;
+                $form['message'] = 'Echec de la suppression';
+            }
+            $form['delete_succes'] = true;
+            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+        }else{
+            header("Location:index.php?page=admin-types");
+            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+        }
+    }else{
+        header("Location:index.php");
+    }
+}

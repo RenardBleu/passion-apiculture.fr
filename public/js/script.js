@@ -1,4 +1,6 @@
 const deleteModal = document.getElementById('delete-modal')
+const deleteModalType = document.getElementById('deleteModalType')
+
 if (deleteModal) {
     deleteModal.addEventListener('show.bs.modal', event => {
     // Button that triggered the modal
@@ -16,5 +18,25 @@ if (deleteModal) {
     modalProductName.textContent = name
 
     modalProductBtn.href = `index.php?page=admin-produit-delete&id=${id}`
+  })
+}
+
+if (deleteModalType) {
+  deleteModalType.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const buttonType = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    const nameType = buttonType.getAttribute('data-bs-nameType')
+    const idType = buttonType.getAttribute('data-bs-idType')
+    // If necessary, you could initiate an Ajax request here
+    // and then do the updating in a callback.
+
+    // Update the modal's content.
+    const modalTypeName = deleteModalType.querySelector('#type-delete-name')
+    const modalTypeBtn = deleteModalType.querySelector('#btn-delete-type')
+
+    modalTypeName.textContent = nameType
+
+    modalTypeBtn.href = `index.php?page=admin-type-delete&id=${idType}`
   })
 }

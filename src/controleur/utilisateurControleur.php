@@ -78,7 +78,6 @@ function inscrireControleur($twig, $db){
                     $form['message'] = 'Un utilisateur est déjà inscrit avec cette adresse mail';
                 }else{
                     try{
-                        var_dump($_POST);
                         $utilisateur = new Utilisateur($db);
                         $utilisateur->insert($inputEmail, password_hash($inputPassword, PASSWORD_DEFAULT), $nom, $prenom, $role);
                     }
