@@ -2,10 +2,9 @@
 {% set admin = 'active-admin' %}
 {% block title %} {{ parent() }} Administration | utilisateur {% endblock %}
 {% block contenu %}
-
-    {% if form.delete_succes is defined %}
+{{ form.alert }}
+    {% if form.alert is defined %}
         <div id="liveAlertPlaceholder"></div>
-        {% if form.delete_succes %}
             <script>
                 const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
                 appendAlert = (message, type) => {
@@ -18,63 +17,9 @@
                     ].join('')
                     alertPlaceholder.append(wrapper)
                 }
-                appendAlert('Type supprimé avec succès !', 'success');
+                appendAlert('{{ form.alert.msg }}', '{{ form.alert.type }}');
             </script>
-        {% else %}
-            <script>
-                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                appendAlert = (message, type) => {
-                    const wrapper = document.createElement('div')                        
-                    wrapper.innerHTML = [
-                        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                        `   <div>${message}</div>`,
-                        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                        '</div>'
-                    ].join('')
-                    alertPlaceholder.append(wrapper)
-                }
-                appendAlert('Erreur : {{ form.message }}', 'danger');
-            </script>
-        {% endif %}
     {% endif %}
-
-{% if form.add_succes is defined %}
-        <div id="liveAlertPlaceholder"></div>
-        <p>test</p>
-        {% if form.add_succes %}
-            <script>
-                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                appendAlert = (message, type) => {
-                    const wrapper = document.createElement('div')
-                    wrapper.innerHTML = [
-                    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                        `   <div>${message}</div>`,
-                        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                        '</div>'
-                    ].join('')
-                    alertPlaceholder.append(wrapper)
-                }
-                appendAlert('Type créé avec succès !', 'success');
-            </script>
-        {% else %}
-        <p>test</p>
-            <script>
-                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                appendAlert = (message, type) => {
-                    const wrapper = document.createElement('div')                        
-                        wrapper.innerHTML = [
-                            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                            `   <div>${message}</div>`,
-                            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                            '</div>'
-                        ].join('')
-                    alertPlaceholder.append(wrapper)
-                }
-                appendAlert('Erreur : {{ form.message }}', 'danger');
-            </script>
-        {% endif %}
-    {% endif %}
-
     <div class="sec1-title d-flex w-100 justify-content-center p-5">
         <h1><i class="bi bi-people-fill"></i> Liste des types</h1>
     </div>
@@ -95,9 +40,8 @@
                     <td>{{t.libelle}}</td><td>fgdgfdfgdfg</td><td>{{t.updateAt}}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idAddType="{{t.id}}" data-bs-nameType="{{t.libelle}}">Supprimer</button>
-                            <a href="index.php?page=user-edit&id={{u.id}}" class="btn btn-warning">Modifier</a>
-                            <button type="button" class="btn btn-success">Voir</button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idType="{{t.id}}" data-bs-nameType="{{t.libelle}}">Supprimer</button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idEditType="{{t.id}}" data-bs-nameEditType="{{t.libelle}}">Modifier</button>
                         </div>
                     </td>
                 {% endif %}
@@ -120,7 +64,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="modal-body">
-                        <p>Attention vous allez supprimer le type :<br><b id="type-delete-name"></b> !<br>Les clients et vous ne verrez donc plus ce type.</p>
+                        <p>Attention vous allez supprimer le type :<br><b id="type-delete-name"></b><br>Les clients et vous ne verrez donc plus ce type.</p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -142,11 +86,35 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="libelle" class="col-form-label">Nom du type:</label>
-                            <input name'libelle' type="text" class="form-control" id="libelle">
+                            <input name="libelle" type="text" class="form-control" id="libelle" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="submit" name="btAdd" class="btn btn-danger">Ajouter</button>
+                            <button type="submit" name="btnAdd" class="btn btn-primary">Ajouter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="editModalType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog alert-danger">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Modifier le type <b></b></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" method="post" enctype="application/x-www-form-urlencoded" id="type-edit-form">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="libelle" class="col-form-label">Nom du type:</label>
+                            <input name="libelle" type="text" class="form-control" id="type-edit-input" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" name="btnEdit" class="btn btn-primary">Ajouter</button>
                         </div>
                     </div>
                 </form>

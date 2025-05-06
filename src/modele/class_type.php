@@ -11,7 +11,7 @@ class Type
         $this->db = $db;
         $this->select = $db->prepare("select id, libelle, updateAt, deleteAt from type order by id");
         $this->deleteById = $db->prepare("delete from type where id=:id");
-        $this->insert = $db->prepare("insert into type(libelle) values (libelle=:libelle)");
+        $this->insert = $db->prepare("insert into type(libelle) values (:libelle)");
     }
 
     public function select(){
@@ -30,11 +30,13 @@ class Type
         return $this->deleteById->fetch();
     }
 
-    public function insert(){
+    public function insert($libelle){
+        $r = true;
         $this->insert->execute(array(':libelle' => $libelle));
-        if ($this->insert->errorCode()!=0){
+        if ($this->insert->errorCode() != 0) {
             print_r($this->insert->errorInfo());
+            $r = false;
         }
-        return $this->insert->fetch();
+        return $r;
     }
 }

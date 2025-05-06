@@ -132,12 +132,20 @@ function AdminProduitDeleteControleur($twig, $db){
     }
 }
 
+
+/* ------ TYPE ------ */
+
+
 function AdminTypeControleur($twig, $db){
     $form = array();
     $type = new Type($db);
     $liste = $type->select();
 
     if ($_SESSION["role"] == 1){
+        if (isset($_SESSION['alert'])) {
+            $form['alert'] = $_SESSION['alert'];
+            unset($_SESSION['alert']);
+        }
         echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
     }else{
         header("Location:index.php");
@@ -152,18 +160,25 @@ function AdminTypeDeleteControleur($twig, $db){
 
         if($_GET['id'] !=""){
             $type = new Type($db);
-            $form['delete_succes'] = true;
+            $form['alert'] = [
+                "msg" => 'Type supprimé avec succès !',
+                "type" => 'success'
+            ];
             try{
                 $type->deleteById($_GET['id']);
             }
-            catch(Exception $e){
-                $form['delete_succes'] = false;
-                $form['message'] = 'Echec de la suppression';
+            catch(PDOException $e){
+                error_log('Erreur PDO : ' . $e->getMessage());
+                $form['alert'] = [
+                    "msg" => 'Echec de la suppression du type',
+                    "type" => 'danger'
+                ];
             }
-            $liste = $type->select();
-            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+            $_SESSION['alert'] = $form['alert'];
+            header("Location:index.php?page=admin-types");
         }else{
-            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+            $_SESSION['alert'] = $form['alert'];
+            header("Location:index.php?page=admin-types");
         }
     }else{
         header("Location:index.php");
@@ -176,22 +191,43 @@ function AdminTypeAddControleur($twig, $db){
         $form = array();
         $type = new Type($db);
 
-        if(isset($_POST['btAdd'])){
+        if(isset($_POST['btnAdd'])){
             $type = new Type($db);
             $libelle = $_POST['libelle'];
-            $form['add_succes'] = true;
+            $form['alert'] = [
+                "msg" => 'Type ajouté avec succès !',
+                "type" => 'success'
+            ];
             try{
                 $type->insert($libelle);
             }
-            catch(Exception $e){
-                $form['add_succes'] = false;
-                $form['message'] = 'Echec ajout du type :'.$e;
+            catch(PDOException $e){
+                error_log('Erreur PDO : ' . $e->getMessage());
+                $form['alert'] = [
+                    "msg" => 'Erreur lors de la création du type',
+                    "type" => 'danger'
+                ];
             }
             $liste = $type->select();
-            dump($form, $libelle, $_POST);
-            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+            $_SESSION['alert'] = $form['alert'];
+            header("Location:index.php?page=admin-types");
         }else{
-            echo $twig ->render('TypeAdmin.twig', array('form'=>$form,'liste'=>$liste));
+            $_SESSION['alert'] = $form['alert'];
+            header("Location:index.php?page=admin-types");
+        }
+    }else{
+        header("Location:index.php");
+    }
+}
+
+function AdminTypeEditControleur($twig, $db){
+    if ($_SESSION["role"] == 1){
+
+        $form = array();
+        $type = new Type($db);
+
+        if(isset($_POST['btnEdit'])){
+
         }
     }else{
         header("Location:index.php");
