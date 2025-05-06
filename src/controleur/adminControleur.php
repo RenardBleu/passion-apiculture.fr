@@ -227,10 +227,31 @@ function AdminTypeEditControleur($twig, $db){
         $type = new Type($db);
 
         if(isset($_POST['btnEdit'])){
-            $form['alert'] = [
-                "msg" => 'Type modifié avec succès !',
-                "type" => 'success'
-            ];
+            if($_GET['id'] !=""){
+
+                $libelle = $_POST['libelle'];
+                $id = $_GET['id'];
+
+                $form['alert'] = [
+                    "msg" => 'Type modifié avec succès !',
+                    "type" => 'success'
+                ];
+                try{
+                    $type->update($id, $libelle);
+                }
+                catch(PDOException $e){
+                    error_log('Erreur PDO : ' . $e->getMessage());
+                    $form['alert'] = [
+                        "msg" => 'Erreur lors de la modification du type',
+                        "type" => 'danger'
+                    ];
+                }
+            }else{
+                $form['alert'] = [
+                    "msg" => 'Erreur lors de la modification du type : identifiant inconnu',
+                    "type" => 'danger'
+                ];
+            }
         }
         $_SESSION['alert'] = $form['alert'];
         header("Location:index.php?page=admin-types");
