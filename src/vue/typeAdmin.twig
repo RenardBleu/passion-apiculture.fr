@@ -1,121 +1,155 @@
 {% extends "base.twig" %}
 {% set admin = 'active-admin' %}
-{% block title %} {{ parent() }} Administration | utilisateur {% endblock %}
+{% block title %} {{ parent() }} Administration | Types {% endblock %}
 {% block contenu %}
-{{ form.alert }}
     {% if form.alert is defined %}
-        <div id="liveAlertPlaceholder"></div>
+        <div class="container py-4">
+            <div id="liveAlertPlaceholder"></div>
             <script>
                 const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                appendAlert = (message, type) => {
+                const appendAlert = (message, type) => {
                     const wrapper = document.createElement('div')
+                    const icon = type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'
+                    const title = type === 'success' ? 'Succès' : 'Attention'
+                    
                     wrapper.innerHTML = [
-                    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                        `   <div>${message}</div>`,
-                        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                        '</div>'
+                        `<div class="alert alert-${type} alert-dismissible fade show shadow-sm" role="alert">`,
+                        `   <div class="d-flex align-items-center">`,
+                        `       <i class="bi bi-${icon} me-2 fs-5"></i>`,
+                        `       <div>`,
+                        `           <strong class="me-2">${title}</strong>`,
+                        `           ${message}`,
+                        `       </div>`,
+                        `   </div>`,
+                        `   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`,
+                        `</div>`
                     ].join('')
+                    
                     alertPlaceholder.append(wrapper)
+                    
+                    // Auto-dismiss after 5 seconds
+                    setTimeout(() => {
+                        const alert = wrapper.querySelector('.alert')
+                        if (alert) {
+                            const bsAlert = new bootstrap.Alert(alert)
+                            bsAlert.close()
+                        }
+                    }, 6000)
                 }
-                appendAlert('{{ form.alert.msg }}', '{{ form.alert.type }}');
+                
+                appendAlert('{{ form.alert.msg }}', '{{ form.alert.type }}')
             </script>
+        </div>
     {% endif %}
-    <div class="sec1-title d-flex w-100 justify-content-center p-5">
-        <h1><i class="bi bi-people-fill"></i> Liste des types</h1>
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h3 mb-0"><i class="bi bi-tags me-2"></i>Gestion des types</h2>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModalType">
+                <i class="bi bi-plus-lg me-2"></i>Nouveau type
+            </button>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Nombre de produits</th>
+                                <th scope="col">Dernière modification</th>
+                                <th scope="col" class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in liste %}
+                            <tr>
+                                {% if t.deleteAt == null %}
+                                    <td>{{t.libelle}}</td>
+                                    <td>fgdgfdfgdfg</td>
+                                    <td>{{t.updateAt}}</td>
+                                    <td class="text-end">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModalType" data-bs-idEditType="{{t.id}}" data-bs-nameEditType="{{t.libelle}}">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idType="{{t.id}}" data-bs-nameType="{{t.libelle}}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="table-responsive w-75 m-auto">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Type</th>
-            <th scope="col">Nombre de produit</th>
-            <th scope="col">Dernière modification</th>
-            <th scope="col">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for t in liste %}
-            <tr class="align-items-center">
-                {% if t.deleteAt == null %}
-                    <td>{{t.libelle}}</td><td>fgdgfdfgdfg</td><td>{{t.updateAt}}</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idType="{{t.id}}" data-bs-nameType="{{t.libelle}}">Supprimer</button>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModalType" data-bs-idEditType="{{t.id}}" data-bs-nameEditType="{{t.libelle}}">Modifier</button>
-                        </div>
-                    </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="4" class="text-center">
-                <button type="button" class="btn btn-primary w-100 align-items-center d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#addModalType"><i class="bi bi-plus-circle-fill m-2" style="font-size: 1.5rem;"></i>Ajouter un type</button>
-            </td>
-        </tbody>
-    </table>
 
-
-    <div class="modal fade" id="deleteModalType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog alert-danger">
+    <!-- Modal Suppression -->
+    <div class="modal fade" id="deleteModalType" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Vous allez supprimer un type</h1>
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Confirmer la suppression</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="modal-body">
-                        <p>Attention vous allez supprimer le type :<br><b id="type-delete-name"></b><br>Les clients et vous ne verrez donc plus ce type.</p>
-                    </div>
+                    <p class="mb-0">Êtes-vous sûr de vouloir supprimer le type : <strong id="type-delete-name"></strong> ?</p>
+                    <p class="text-muted small mt-2">Cette action est irréversible.</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
                     <a id="btn-delete-type" href="#" class="btn btn-danger">Supprimer</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="addModalType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog alert-danger">
+    <!-- Modal Ajout -->
+    <div class="modal fade" id="addModalType" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Ajouter un nouveau type</h1>
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Ajouter un type</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="index.php?page=admin-type-add" method="post" enctype="application/x-www-form-urlencoded">
+                <form action="index.php?page=admin-type-add" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="libelle" class="col-form-label">Nom du type:</label>
+                            <label for="libelle" class="form-label">Nom du type</label>
                             <input name="libelle" type="text" class="form-control" id="libelle" required>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="submit" name="btnAdd" class="btn btn-primary">Ajouter</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" name="btnAdd" class="btn btn-primary">Ajouter</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-
-    <div class="modal fade" id="editModalType" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog alert-danger">
+    <!-- Modal Modification -->
+    <div class="modal fade" id="editModalType" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Modifier le type <b></b></h1>
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Modifier le type <b id="type-edit-name"></b></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="" method="post" enctype="application/x-www-form-urlencoded" id="type-edit-form">
+                <form action="" method="post" id="type-edit-form">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="libelle" class="col-form-label">Nom du type:</label>
+                            <label for="type-edit-input" class="form-label">Nom du type</label>
                             <input name="libelle" type="text" class="form-control" id="type-edit-input" required>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="submit" name="btnEdit" class="btn btn-primary">Ajouter</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" name="btnEdit" class="btn btn-primary">Enregistrer</button>
                     </div>
                 </form>
             </div>

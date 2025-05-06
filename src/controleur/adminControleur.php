@@ -227,8 +227,13 @@ function AdminTypeEditControleur($twig, $db){
         $type = new Type($db);
 
         if(isset($_POST['btnEdit'])){
-
+            $form['alert'] = [
+                "msg" => 'Type modifié avec succès !',
+                "type" => 'success'
+            ];
         }
+        $_SESSION['alert'] = $form['alert'];
+        header("Location:index.php?page=admin-types");
     }else{
         header("Location:index.php");
     }

@@ -1,37 +1,152 @@
 {% extends "base.twig" %}
 {% set admin = 'active-admin' %}
-{% block title %} {{ parent() }} Administration | utilisateur {% endblock %}
+{% block title %} {{ parent() }} Administration | Utilisateurs {% endblock %}
 {% block contenu %}
-    <div class="sec1-title d-flex w-100 justify-content-center p-5">
-        <h1><i class="bi bi-people-fill"></i> Liste des utilisateur</h1>
+    {% if form.alert is defined %}
+        <div class="container py-4">
+            <div id="liveAlertPlaceholder"></div>
+            <script>
+                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                const appendAlert = (message, type) => {
+                    const wrapper = document.createElement('div')
+                    const icon = type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'
+                    const title = type === 'success' ? 'Succès' : 'Attention'
+                    
+                    wrapper.innerHTML = [
+                        `<div class="alert alert-${type} alert-dismissible fade show shadow-sm" role="alert">`,
+                        `   <div class="d-flex align-items-center">`,
+                        `       <i class="bi bi-${icon} me-2 fs-5"></i>`,
+                        `       <div>`,
+                        `           <strong class="me-2">${title}</strong>`,
+                        `           ${message}`,
+                        `       </div>`,
+                        `   </div>`,
+                        `   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`,
+                        `</div>`
+                    ].join('')
+                    
+                    alertPlaceholder.append(wrapper)
+                    
+                    // Auto-dismiss after 6 seconds
+                    setTimeout(() => {
+                        const alert = wrapper.querySelector('.alert')
+                        if (alert) {
+                            const bsAlert = new bootstrap.Alert(alert)
+                            bsAlert.close()
+                        }
+                    }, 6000)
+                }
+                
+                appendAlert('{{ form.alert.msg }}', '{{ form.alert.type }}')
+            </script>
+        </div>
+    {% endif %}
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h3 mb-0"><i class="bi bi-people-fill me-2"></i>Gestion des utilisateurs</h2>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th scope="col">Email</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Rôle</th>
+                                <th scope="col">Dernière modification</th>
+                                <th scope="col" class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for u in liste %}
+                            <tr>
+                                {% if u.deleteAt == null %}
+                                    <td>{{u.email}}</td>
+                                    <td>{{u.nom}}</td>
+                                    <td>{{u.prenom}}</td>
+                                    <td>{{u.libellerole}}</td>
+                                    <td>{{u.updateAt}}</td>
+                                    <td class="text-end">
+                                        <div class="btn-group">
+                                            <a href="index.php?page=user-edit&id={{u.id}}" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModalUser" data-bs-idUser="{{u.id}}" data-bs-nameUser="{{u.email}}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#viewModalUser" data-bs-idUser="{{u.id}}">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="table-responsive w-75 m-auto">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Email</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Rôle</th>
-            <th scope="col">Dernière modification</th>
-            <th scope="col">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for u in liste %}
-            <tr class="align-items-center">
-                {% if u.deleteAt == null %}
-                    <td>{{u.email}}</td><td>{{u.nom}}</td><td>{{u.prenom}}</td><td>{{u.libellerole}}</td><td>{{u.updateAt}}</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-danger">Supprimer</button>
-                            <a href="index.php?page=user-edit&id={{u.id}}" class="btn btn-warning">Modifier</a>
-                            <button type="button" class="btn btn-success">Voir</button>
-                        </div>
-                    </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+
+    <!-- Modal Suppression -->
+    <div class="modal fade" id="deleteModalUser" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Confirmer la suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">Êtes-vous sûr de vouloir supprimer l'utilisateur : <strong id="user-delete-name"></strong> ?</p>
+                    <p class="text-muted small mt-2">Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btn-delete-user" href="#" class="btn btn-danger">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualisation -->
+    <div class="modal fade" id="viewModalUser" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Détails de l'utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email</label>
+                        <p id="view-email" class="mb-0"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nom</label>
+                        <p id="view-nom" class="mb-0"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Prénom</label>
+                        <p id="view-prenom" class="mb-0"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Rôle</label>
+                        <p id="view-role" class="mb-0"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Dernière modification</label>
+                        <p id="view-update" class="mb-0"></p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

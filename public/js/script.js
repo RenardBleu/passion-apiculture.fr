@@ -1,5 +1,6 @@
 const deleteModal = document.getElementById('delete-modal')
 const deleteModalType = document.getElementById('deleteModalType')
+const editModalType = document.getElementById('editModalType')
 
 if (deleteModal) {
     deleteModal.addEventListener('show.bs.modal', event => {
@@ -41,19 +42,13 @@ if (deleteModalType) {
   })
 }
 
-if (addModalType) {
-  addModalType.addEventListener('show.bs.modal', event => {
-
-  })
-}
-
 if (editModalType) {
   editModalType.addEventListener('show.bs.modal', event => {
     // Button that triggered the modal
     const buttonEditType = event.relatedTarget
     // Extract info from data-bs-* attributes
-    const nameEditType = buttonEditType.getAttribute('data-bs-nameType')
-    const idEditType = buttonEditType.getAttribute('data-bs-idType')
+    const nameEditType = buttonEditType.getAttribute('data-bs-nameEditType')
+    const idEditType = buttonEditType.getAttribute('data-bs-idEditType')
     // If necessary, you could initiate an Ajax request here
     // and then do the updating in a callback.
 
