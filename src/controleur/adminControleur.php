@@ -32,12 +32,15 @@ function AdminProduitControleur($twig, $db){
     $produit = new Produit($db);
     $liste = $produit->select();
 
+    $type = new Type($db);
+    $listeType = $type->select();
+
     if ($_SESSION["role"] == 1){
         if (isset($_SESSION['alert'])) {
             $form['alert'] = $_SESSION['alert'];
             unset($_SESSION['alert']);
         }
-        echo $twig ->render('ProduitAdmin.twig', array('form'=>$form,'liste'=>$liste));
+        echo $twig ->render('ProduitAdmin.twig', array('form'=>$form,'liste'=>$liste, 'type'=>$listeType));
     }else{
         $form['alert'] = [
             "msg" => "Vous n'avez pas la permission d'aller sur cette page !",
