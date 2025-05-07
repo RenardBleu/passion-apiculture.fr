@@ -1,6 +1,7 @@
 const deleteModal = document.getElementById('delete-modal')
 const deleteModalType = document.getElementById('deleteModalType')
 const editModalType = document.getElementById('editModalType')
+const AddModalProduit = document.getElementById('AddModalProduit')
 
 if (deleteModal) {
     deleteModal.addEventListener('show.bs.modal', event => {
@@ -49,6 +50,28 @@ if (editModalType) {
     // Extract info from data-bs-* attributes
     const nameEditType = buttonEditType.getAttribute('data-bs-nameEditType')
     const idEditType = buttonEditType.getAttribute('data-bs-idEditType')
+    // If necessary, you could initiate an Ajax request here
+    // and then do the updating in a callback.
+
+    // Update the modal's content.
+    const modalTypeName = editModalType.querySelector('#type-edit-name')
+    const modalTypeInput = editModalType.querySelector('#type-edit-input')
+    const modalTypeForm = editModalType.querySelector('#type-edit-form')
+
+    modalTypeName.textContent = nameEditType
+    modalTypeInput.value = nameEditType
+
+    modalTypeForm.action = `index.php?page=admin-type-edit&id=${idEditType}`
+  })
+}
+
+if(AddModalProduit){
+  AddModalProduit.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const buttonAddProduit = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    const nameAddProduit = buttonAddProduit.getAttribute('data-bs-nameEditType')
+    const idAddProduit = buttonAddProduit.getAttribute('data-bs-idEditType')
     // If necessary, you could initiate an Ajax request here
     // and then do the updating in a callback.
 

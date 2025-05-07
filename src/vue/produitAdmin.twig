@@ -75,12 +75,12 @@
                     </div>
                 {% endif %}
             {% endfor %}
-            <a href="index.php?page=admin-produit-add" class="max-content-height btn btn-primary btn-lg d-flex justify-content-center align-items-center" style="width: 18rem;">
+            <button type="button" class="max-content-height btn btn-primary btn-lg d-flex justify-content-center align-items-center" style="width: 18rem;" data-bs-toggle="modal" data-bs-target="#addModalProduit">
                 <div>
                     <i class="bi bi-plus-circle-fill" style="font-size: 4rem;"></i>
                     <h4>Ajouter un article</h4>
                 </div>
-            </a>
+            </button>
         </div>
     </div>
 
@@ -102,6 +102,51 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <a id="btn-delete-product" href="#" class="btn btn-danger">Supprimer</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ajout -->
+    <div class="modal fade" id="addModalProduit" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Ajouter un produit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <form action="index.php?page=admin-produit-add" method="post" enctype="application/x-www-form-urlencoded">
+                        <div class="modal-body row g-2">
+                            <div class="col-md-8">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom du produit" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="prix" class="form-label">prix</label>
+                                <input name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="description">Description</label>
+                                <textarea name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inputState" class="form-label">Type</label>
+                                <select class="form-select" aria-label="Default select example" name="type" required>
+                                    <option selected value="0">Type du produit</option>
+                                    {% for p in liste %}
+                                        <option value="{{ p.id }}">{{ p.libelle }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-8 pb-4">
+                                <label for="formFile" class="form-label">Miniature du produit</label>
+                                <input name="miniature" class="form-control" type="file" id="formFile">
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" name="btnAdd" class="btn btn-primary">Ajouter</button>
+                        </div>
+                    </form>
             </div>
         </div>
     </div>

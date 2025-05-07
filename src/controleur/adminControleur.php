@@ -20,12 +20,23 @@ function AdminUsersControleur($twig, $db){
     }
 }
 
+
+
+
+
+
+
+
 function AdminProduitControleur($twig, $db){
     $form = array();
     $produit = new Produit($db);
     $liste = $produit->select();
 
     if ($_SESSION["role"] == 1){
+        if (isset($_SESSION['alert'])) {
+            $form['alert'] = $_SESSION['alert'];
+            unset($_SESSION['alert']);
+        }
         echo $twig ->render('ProduitAdmin.twig', array('form'=>$form,'liste'=>$liste));
     }else{
         $form['alert'] = [
@@ -42,12 +53,12 @@ function AdminProduitAddControleur($twig, $db){
     $liste = $type->select();
 
     $form = array();
-    if (isset($_POST['btAdd'])){
+    if (isset($_POST['btnAdd'])){
         $nom = $_POST['nom'];
         $prix = $_POST['prix'];
-        $description =$_POST['description'];
         $type = $_POST['type'];
         $miniature = $_POST['miniature'];
+        $description =$_POST['description'];
         $form['alert'] = [
             "msg" => "Produit ajouté avec succès !",
             "type" => 'success'
@@ -134,7 +145,8 @@ function AdminProduitEditControleur($twig, $db){
     else{
         $form['message'] = 'Produit non précisé';
     }
-    echo $twig->render('produitEdit.twig', array('form'=>$form));
+    $_SESSION['alert'] = $form['alert'];
+    header("Location:index.php?page=admin-produits");
 }
 
 
@@ -155,6 +167,12 @@ function AdminProduitDeleteControleur($twig, $db){
         header("Location:index.php");
     }
 }
+
+
+
+
+
+
 
 
 /* ------ TYPE ------ */
