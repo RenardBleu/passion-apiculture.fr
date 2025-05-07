@@ -5,6 +5,13 @@
     --primary-color-focus-shadow: rgb(249,177,20,.25);
     --bg-secondaire: rgb(221, 221, 221);
 }
+
+.container-alert{
+    position: absolute;
+    right: 0;
+    z-index: 100;
+    top: 0;
+}
 .alert-dismissible {
     position: absolute!important;
     top: 100px!important;

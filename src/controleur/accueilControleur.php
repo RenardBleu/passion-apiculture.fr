@@ -1,6 +1,10 @@
 <?php
     function accueilControleur($twig){
-        echo $twig ->render('accueil.twig', array());
+        if (isset($_SESSION['alert'])) {
+            $form['alert'] = $_SESSION['alert'];
+            unset($_SESSION['alert']);
+        }
+        echo $twig ->render('accueil.twig', array('form'=>$form));
     }
     function contactControleur($twig){
         echo $twig ->render('contact.twig', array());

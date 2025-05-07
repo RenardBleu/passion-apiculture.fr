@@ -13,7 +13,7 @@ class Utilisateur
     {
         $this->db = $db;
         $this->insert = $this->db->prepare("insert into users(email, mdp, nom, prenom, idRole) values (:email, :mdp, :nom, :prenom, :role)"); // Étape 2
-        $this->connect = $this->db->prepare("select email, idRole, nom, prenom, mdp, deleteAt from users where email=:email");
+        $this->connect = $this->db->prepare("select id, email, idRole, nom, prenom, mdp, deleteAt from users where email=:email");
         $this->select = $db->prepare("select u.id, email, idRole, nom, prenom, updateAt, deleteAt, r.libelle as libellerole from users u, role r where u.idRole = r.id order by nom");
         $this->selectById = $db->prepare("select u.id, email, idRole, nom, prenom, mdp, updateAt, deleteAt, r.libelle as libellerole from users u, role r where u.id=:id");
         $this->update = $db->prepare("update users set nom=:nom, prenom=:prenom, idRole=:role, mdp=:mdp, updateAt=now() where id=:id");
