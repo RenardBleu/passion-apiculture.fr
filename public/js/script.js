@@ -1,6 +1,7 @@
 const deleteModal = document.getElementById('delete-modal')
 const deleteModalType = document.getElementById('deleteModalType')
 const editModalType = document.getElementById('editModalType')
+const editModalProduit = document.getElementById('editModalProduit')
 
 if (deleteModal) {
     deleteModal.addEventListener('show.bs.modal', event => {
@@ -61,5 +62,17 @@ if (editModalType) {
     modalTypeInput.value = nameEditType
 
     modalTypeForm.action = `index.php?page=admin-type-edit&id=${idEditType}`
+  })
+}
+
+if (editModalProduit) {
+  editModalProduit.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const buttonEditProduit = event.relatedTarget
+
+    const ProduitName = buttonEditType.getAttribute('data-bs-nameEditProduit')
+    const ProduitId = buttonEditType.getAttribute('data-bs-idEditProduit')
+    const 
+    
   })
 }
