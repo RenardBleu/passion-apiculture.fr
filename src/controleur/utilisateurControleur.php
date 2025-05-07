@@ -86,7 +86,7 @@ function inscrireControleur($twig, $db){
         }else{
             if(strlen($inputPassword)<8){
                 $form['alert'] = [
-                    "msg" => "Erreur lors de l\'inscription : Le mots de passe est trop faible",
+                    "msg" => "Erreur lors de l'inscription : Le mots de passe est trop faible",
                     "type" => 'danger'
                 ];
             }else{
@@ -94,7 +94,7 @@ function inscrireControleur($twig, $db){
                 $unUtilisateur = $utilisateur->connect($inputEmail);
                 if($unUtilisateur['email'] === $inputEmail){
                     $form['alert'] = [
-                        "msg" => "Erreur lors de l\'inscription : Un utilisateur est déjà inscrit avec cette adresse mail",
+                        "msg" => "Erreur lors de l'inscription : Un utilisateur est déjà inscrit avec cette adresse mail",
                         "type" => 'danger'
                     ];
                 }else{
@@ -104,7 +104,7 @@ function inscrireControleur($twig, $db){
                     }
                     catch(Exception $e){
                         $form['alert'] = [
-                            "msg" => "Erreur lors de l\'inscription : Problème d\'insertion dans la table utilisateur",
+                            "msg" => "Erreur lors de l'inscription : Problème d'insertion dans la table utilisateur",
                             "type" => 'danger'
                         ];
                     }
@@ -116,9 +116,18 @@ function inscrireControleur($twig, $db){
         $form['nom'] = $nom;
         $form['prenom'] = $prenom;
     }
-    $_SESSION['alert'] = $form['alert'];
-    echo $twig->render('inscrire.twig', array('form'=>$form));
+    if($form['alert']['type'] == 'success'){
+        $_SESSION['alert'] = $form['alert'];
+        header("Location:index.php?page=login");
+    }else{
+        $_SESSION['alert'] = $form['alert'];
+        echo $twig->render('inscrire.twig', array('form'=>$form));
+    }
 }
+
+
+// ---- EDITION UTILISATEUR ---- //
+
 
 function userEditControleur($twig, $db){
     $form = array();
@@ -134,27 +143,28 @@ function userEditControleur($twig, $db){
             }
             else{
                 $form['message'] = 'Utilisateur incorrect';
+                $_SESSION['alert'] = $form['alert'];
+                echo $twig->render('userEdit.twig', array('form'=>$form));
+                exit();
             }
             if(isset($_POST['btEdit'])){
-                $utilisateur = new Utilisateur($db);
-                $nom = $_POST['nom'];
-                $prenom = $_POST['prenom'];
-                $role = $_POST['role'];
                 $id = $_GET['id'];
+                $nom = $_POST['nom'];
+                $role = $_POST['role'];
+                $prenom = $_POST['prenom'];
+                $utilisateur = new Utilisateur($db);
+                $inputPassword = $_POST['inputPassword'];
+                $inputPassword2 = $_POST['inputPassword2'];
                 $form['alert'] = [
                     "msg" => "Modification réussie !",
                     "type" => 'success'
                 ];
-                $inputPassword = $_POST['inputPassword'];
-                $inputPassword2 = $_POST['inputPassword2'];
-    
                 if($inputPassword!=$inputPassword2){
                     $form['alert'] = [
                         "msg" => "Echec de la modification : Les mots de passe sont différents",
                         "type" => 'danger'
                     ];
                 }else{
-    
                     try{
                         if($inputPassword == ""){
                             $mdp = $unUtilisateur['mdp'];
@@ -177,12 +187,22 @@ function userEditControleur($twig, $db){
                         ];
                     }
                 }
+                if($_SESSION['role'] != 1){
+                    $_SESSION['alert'] = $form['alert'];
+                    header("Location:index.php");
+                }else{
+                    $_SESSION['alert'] = $form['alert'];
+                    header("Location:index.php?page=admin-users");
+                }
+            }else{
+                echo $twig->render('userEdit.twig', array('form'=>$form));
             }
         }
         else{
             $form['message'] = 'Utilisateur non précisé';
+            echo $twig->render('userEdit.twig', array('form'=>$form));
+            exit();
         }
-        echo $twig->render('userEdit.twig', array('form'=>$form));
     }else {
         $form['alert'] = [
             "msg" => "Vous n\'avez pas la permission de modifier cette utilisateur !",

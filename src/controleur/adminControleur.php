@@ -5,8 +5,17 @@ function AdminUsersControleur($twig, $db){
     $liste = $utilisateur->select();
 
     if ($_SESSION["role"] == 1){
+        if (isset($_SESSION['alert'])) {
+            $form['alert'] = $_SESSION['alert'];
+            unset($_SESSION['alert']);
+        }
         echo $twig ->render('userAdmin.twig', array('form'=>$form,'liste'=>$liste));
     }else{
+        $form['alert'] = [
+            "msg" => "Vous n'avez pas la permission d'aller sur cette page !",
+            "type" => 'danger'
+        ];
+        $_SESSION['alert'] = $form['alert'];
         header("Location:index.php");
     }
 }
@@ -19,6 +28,11 @@ function AdminProduitControleur($twig, $db){
     if ($_SESSION["role"] == 1){
         echo $twig ->render('ProduitAdmin.twig', array('form'=>$form,'liste'=>$liste));
     }else{
+        $form['alert'] = [
+            "msg" => "Vous n'avez pas la permission d'aller sur cette page !",
+            "type" => 'danger'
+        ];
+        $_SESSION['alert'] = $form['alert'];
         header("Location:index.php");
     }
 }
@@ -34,28 +48,38 @@ function AdminProduitAddControleur($twig, $db){
         $description =$_POST['description'];
         $type = $_POST['type'];
         $miniature = $_POST['miniature'];
-        $form['valide'] = true;
+        $form['alert'] = [
+            "msg" => "Produit ajouté avec succès !",
+            "type" => 'success'
+        ];
         if ($type == "0"){
-            $form['valide'] = false;
-            $form['message'] = 'Vous devez mettre un type au produit';
+            $form['alert'] = [
+                "msg" => "Erreur lors de l'ajout du produit : Vous devez mettre un type au produit",
+                "type" => 'danger'
+            ];
         }else{
             try{
                 $produit = new Produit($db);
                 $produit->insert($nom, $description, $prix, $type, $miniature);
             }
             catch(Exception $e){
-                $form['valide'] = false;
-                $form['message'] = 'Problème d\'insertion dans la table produit ';
-                //$form['message'] = $e;
+                $form['alert'] = [
+                    "msg" => "Erreur lors de l'ajout du produit : Problème d'insertion dans la table produit",
+                    "type" => 'danger'
+                ];
             }
         }
         $form['nom'] = $nom;
         $form['prix'] = $prix;
-        var_dump($type, $form['message'], $form['valide']);
     }
     if ($_SESSION["role"] == 1){
         echo $twig ->render('ProduitAdminAdd.twig', array('form'=>$form,'liste'=>$liste));
     }else {
+        $form['alert'] = [
+            "msg" => "Vous n'avez pas la permission pour ajouter un produit !",
+            "type" => 'danger'
+        ];
+        $_SESSION['alert'] = $form['alert'];
         header("Location:index.php");
     }
 }

@@ -2,46 +2,6 @@
 {% set admin = 'active-admin' %}
 {% block title %} {{ parent() }} Administration | Utilisateurs {% endblock %}
 {% block contenu %}
-    {% if form.alert is defined %}
-        <div class="container py-4">
-            <div id="liveAlertPlaceholder"></div>
-            <script>
-                const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-                const appendAlert = (message, type) => {
-                    const wrapper = document.createElement('div')
-                    const icon = type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'
-                    const title = type === 'success' ? 'Succès' : 'Attention'
-                    
-                    wrapper.innerHTML = [
-                        `<div class="alert alert-${type} alert-dismissible fade show shadow-sm" role="alert">`,
-                        `   <div class="d-flex align-items-center">`,
-                        `       <i class="bi bi-${icon} me-2 fs-5"></i>`,
-                        `       <div>`,
-                        `           <strong class="me-2">${title}</strong>`,
-                        `           ${message}`,
-                        `       </div>`,
-                        `   </div>`,
-                        `   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`,
-                        `</div>`
-                    ].join('')
-                    
-                    alertPlaceholder.append(wrapper)
-                    
-                    // Auto-dismiss after 6 seconds
-                    setTimeout(() => {
-                        const alert = wrapper.querySelector('.alert')
-                        if (alert) {
-                            const bsAlert = new bootstrap.Alert(alert)
-                            bsAlert.close()
-                        }
-                    }, 6000)
-                }
-                
-                appendAlert('{{ form.alert.msg }}', '{{ form.alert.type }}')
-            </script>
-        </div>
-    {% endif %}
-
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="h3 mb-0"><i class="bi bi-people-fill me-2"></i>Gestion des utilisateurs</h2>
