@@ -72,7 +72,10 @@ if (editModalProduit) {
 
     const ProduitName = buttonEditType.getAttribute('data-bs-nameEditProduit')
     const ProduitId = buttonEditType.getAttribute('data-bs-idEditProduit')
-    const 
+    const ProduitDescription = buttonEditType.getAttribute('data-bs-descriptionEditProduit')
+    const ProduitPrix = buttonEditType.getAttribute('data-bs-prixEditProduit')
+    const ProduitType = buttonEditType.getAttribute('data-bs-typeEditProduit')
+
     
   })
 }
