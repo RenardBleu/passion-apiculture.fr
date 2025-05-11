@@ -70,12 +70,25 @@ if (editModalProduit) {
     // Button that triggered the modal
     const buttonEditProduit = event.relatedTarget
 
-    const ProduitName = buttonEditType.getAttribute('data-bs-nameEditProduit')
-    const ProduitId = buttonEditType.getAttribute('data-bs-idEditProduit')
-    const ProduitDescription = buttonEditType.getAttribute('data-bs-descriptionEditProduit')
-    const ProduitPrix = buttonEditType.getAttribute('data-bs-prixEditProduit')
-    const ProduitType = buttonEditType.getAttribute('data-bs-typeEditProduit')
+    // Extract info from data-bs-* attributes
+    const produitName = buttonEditProduit.getAttribute('data-bs-name')
+    const produitId = buttonEditProduit.getAttribute('data-bs-id')
+    const produitPrix = buttonEditProduit.getAttribute('data-bs-prix')
+    const produitDescription = buttonEditProduit.getAttribute('data-bs-description')
+    const produitType = buttonEditProduit.getAttribute('data-bs-type')
 
-    
+    // Update the modal's content
+    const modalProduitName = editModalProduit.querySelector('input[name="nom"]')
+    const modalProduitPrix = editModalProduit.querySelector('input[name="prix"]')
+    const modalProduitDescription = editModalProduit.querySelector('textarea[name="description"]')
+    const modalProduitType = editModalProduit.querySelector('#textSelectType')
+    const modalProduitForm = editModalProduit.querySelector('#product-edit-form')
+
+    // Set the values in the form
+    modalProduitName.value = produitName
+    modalProduitPrix.value = produitPrix
+    modalProduitDescription.value = produitDescription
+    modalProduitType.textContent = produitType
+    modalProduitForm.action = `index.php?page=admin-produit-edit&id=${produitId}`
   })
 }

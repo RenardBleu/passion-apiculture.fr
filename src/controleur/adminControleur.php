@@ -105,49 +105,40 @@ function AdminProduitEditControleur($twig, $db){
         $produit = new Produit($db);
         $unProduit = $produit->produit($_GET['id']); 
         if ($unProduit!=null){
-            $form['produit'] = $unProduit;
-            $type = new Type($db);
-            $liste = $type->select();
-            $form['type']=$liste;
+            if(isset($_POST['btnEdit'])){
+                $produit = new Produit($db);
+                $id = $_GET['id'];
+                $title = $_POST['nom'];
+                $description = $_POST['description'];
+                $prix = $_POST['prix'];
+                $miniature = $_POST['miniature'];
+                $type = ($_POST['type'] == "0") ? $unProduit['idType'] : $_POST['type'];
+                $form['valide'] = true;
+    
+                try{
+                    if($miniature == ""){
+                        $minia = $form['produit']['miniature'];
+                    }else{
+                        $minia = $miniature;
+                    }
+                    //$produit->update($id, $title, $description, $prix, $type, $minia);
+                    $form['message'] = 'Modification réussie';
+                }catch(Exception $e){
+                    $form['valide'] = false;
+                    $form['message'] = 'Echec de la modification';
+                }
+            }
         }
         else{
             $form['message'] = 'Produit incorrect ou inconnu';
         }
-        if(isset($_POST['btEdit'])){
-            $produit = new Produit($db);
-            $id = $_GET['id'];
-            $title = $_POST['title'];
-            $description = $_POST['description'];
-            $prix = $_POST['prix'];
-            $miniature = $_POST['miniature'];
-            $type = $_POST['type'];
-            $form['valide'] = true;
-
-            try{
-                if($miniature == ""){
-                    $minia = $form['produit']['miniature'];
-                }else{
-                    $minia = $miniature;
-                }
-                $produit->update($id, $title, $description, $prix, $type, $minia);
-                $form['message'] = 'Modification réussie';
-            }catch(Exception $e){
-                $form['valide'] = false;
-                $form['message'] = 'Echec de la modification';
-            }
-            $produit = new Produit($db);
-            $unProduit = $produit->produit($_GET['id']); 
-            if ($unProduit!=null){
-                $form['produit'] = $unProduit;
-                $type = new Type($db);
-                $liste = $type->select();
-                $form['type']=$liste;
-            }
-        }
+        
     }
     else{
         $form['message'] = 'Produit non précisé';
     }
+    dump($_POST, $title, $description, $prix, $type, $miniature, $form['message'], $unProduit, isset($_POST['btEdit']));
+    $type = new Type($db);
     $_SESSION['alert'] = $form['alert'];
     header("Location:index.php?page=admin-produits");
 }

@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="{{p.id}}" data-bs-name="{{p.title}}">Supprimer</button>
-                                <a href="index.php?page=admin-produit-edit&id={{p.id}}" class="btn btn-warning">Modifier</a>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModalProduit" data-bs-id="{{p.id}}" data-bs-name="{{p.title}}" data-bs-prix="{{p.prix}}" data-bs-description="{{p.description}}" data-bs-type="{{p.libelletype}}">Modifier</button>
                                 <button type="button" class="btn btn-success">Voir</button>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="prix" class="form-label">prix</label>
-                                <input name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                                <input step="0.01" name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
                             </div>
                             <div class="col-12">
                                 <label for="description">Description</label>
@@ -120,10 +120,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title">Ajouter un produit</h5>
+                    <h5 class="modal-title">Modifier un produit</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="index.php?page=admin-produit-edit" method="post" enctype="application/x-www-form-urlencoded">
+                <form action="index.php?page=admin-produit-edit" method="post" id="product-edit-form" enctype="application/x-www-form-urlencoded">
                     <div class="modal-body row g-2">
                         <div class="col-md-8">
                             <label for="nom" class="form-label">Nom</label>
@@ -131,7 +131,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="prix" class="form-label">prix</label>
-                            <input name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
+                            <input step="0.01" name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
                         </div>
                         <div class="col-12">
                             <label for="description">Description</label>
@@ -140,11 +140,12 @@
                         <div class="col-md-4">
                             <label for="inputState" class="form-label">Type</label>
                             <select class="form-select" aria-label="Default select example" name="type" required>
-                                <option selected value="0">Type du produit</option>
+                                <option value="0" selected>Choisir un type</option>
                                 {% for t in type %}
                                     <option value="{{ t.id }}">{{ t.libelle }}</option>
                                 {% endfor %}
                             </select>
+                            <small><i>Type actuel : <b id="textSelectType"></b></i></small>
                         </div>
                         <div class="col-md-8 pb-4">
                             <label for="formFile" class="form-label">Miniature du produit</label>
