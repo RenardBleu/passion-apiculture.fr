@@ -248,3 +248,53 @@ nav .nav-item .admin{
     text-overflow: ellipsis;
     text-wrap-mode: nowrap;
 }
+
+/* Styles pour les statuts de commande */
+.status-select {
+    min-width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.status-select option {
+    padding: 8px;
+    font-weight: 500;
+}
+
+/* Couleurs des statuts en tons pastels */
+.status-select option[value="En attente"] {
+    background-color: #FFE5B4; /* Pêche pastel */
+    color: #8B4513;
+}
+
+.status-select option[value="En préparation"] {
+    background-color: #B5EAD7; /* Menthe pastel */
+    color: #2F4F4F;
+}
+
+.status-select option[value="Payée"] {
+    background-color: #C7CEEA; /* Bleu pastel */
+    color: #1B365D;
+}
+
+.status-select option[value="Livrée"] {
+    background-color: #E2F0CB; /* Vert pastel */
+    color: #2E5A1C;
+}
+
+.status-select option[value="Annulée"] {
+    background-color: #FFB7B2; /* Rose pastel */
+    color: #8B0000;
+}
+
+/* Style du select quand il est ouvert */
+.status-select:focus {
+    border-color: var(--primary-color-focus-border) !important;
+    box-shadow: 0 0 0 .25rem var(--primary-color-focus-shadow) !important;
+}
+
+/* Style pour l'option sélectionnée */
+.status-select option:checked {
+    font-weight: bold;
+}

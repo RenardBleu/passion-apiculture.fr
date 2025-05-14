@@ -1,22 +1,16 @@
 {% extends "base.twig" %}
-{% block title %}Gestion des commandes{% endblock %}
+{% block title %} Administration | Gestion des commandes{% endblock %}
+{% set admin = 'active-admin' %}
 
-{% block body %}
+{% block contenu %}
 <div class="container mt-4">
     <h1 class="mb-4">Gestion des commandes</h1>
-
-    {% if form.alert is defined %}
-        <div class="alert alert-{{ form.alert.type }} alert-dismissible fade show" role="alert">
-            {{ form.alert.msg }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endif %}
 
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Numéro de commande</th>
                     <th>Client</th>
                     <th>Date</th>
                     <th>Total</th>
@@ -25,19 +19,63 @@
                 </tr>
             </thead>
             <tbody>
-                {% for commande in liste %}
+                {% set commandes_exemple = [
+                    {
+                        'id': 8561487,
+                        'nomClient': 'Jean Dupont',
+                        'dateCommande': '2024-03-15 14:30',
+                        'total': 89.99,
+                        'statut': 'En attente'
+                    },
+                    {
+                        'id': 5428971,
+                        'nomClient': 'Marie Martin',
+                        'dateCommande': '2024-03-14 10:15',
+                        'total': 149.50,
+                        'statut': 'En préparation'
+                    },
+                    {
+                        'id': 1568374,
+                        'nomClient': 'Pierre Durand',
+                        'dateCommande': '2024-03-13 16:45',
+                        'total': 75.25,
+                        'statut': 'Payée'
+                    },
+                    {
+                        'id': 5489894,
+                        'nomClient': 'Sophie Leroy',
+                        'dateCommande': '2024-03-12 09:20',
+                        'total': 199.99,
+                        'statut': 'Livrée'
+                    }
+                ] %}
+
+                {% for commande in commandes_exemple %}
                     <tr>
-                        <td>{{ commande.id }}</td>
+                        <td>N°{{ commande.id }}</td>
                         <td>{{ commande.nomClient }}</td>
                         <td>{{ commande.dateCommande|date('d/m/Y H:i') }}</td>
                         <td>{{ commande.total }} €</td>
                         <td>
-                            <span class="badge {% if commande.statut == 'En attente' %}bg-warning
-                                            {% elseif commande.statut == 'Validée' %}bg-success
-                                            {% elseif commande.statut == 'Annulée' %}bg-danger
-                                            {% else %}bg-secondary{% endif %}">
-                                {{ commande.statut }}
-                            </span>
+                            <select class="form-select form-select-sm status-select" 
+                                    data-commande-id="{{ commande.id }}"
+                                    onchange="updateStatus(this)">
+                                <option value="En attente" {% if commande.statut == 'En attente' %}selected{% endif %}>
+                                    <i class="fas fa-clock"></i> En attente
+                                </option>
+                                <option value="En préparation" {% if commande.statut == 'En préparation' %}selected{% endif %}>
+                                    <i class="fas fa-box"></i> En préparation
+                                </option>
+                                <option value="Payée" {% if commande.statut == 'Payée' %}selected{% endif %}>
+                                    <i class="fas fa-check-circle"></i> Payée
+                                </option>
+                                <option value="Livrée" {% if commande.statut == 'Livrée' %}selected{% endif %}>
+                                    <i class="fas fa-truck"></i> Livrée
+                                </option>
+                                <option value="Annulée" {% if commande.statut == 'Annulée' %}selected{% endif %}>
+                                    <i class="fas fa-times-circle"></i> Annulée
+                                </option>
+                            </select>
                         </td>
                         <td>
                             <div class="btn-group" role="group">
@@ -56,10 +94,6 @@
                                 </a>
                             </div>
                         </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center">Aucune commande trouvée</td>
                     </tr>
                 {% endfor %}
             </tbody>
