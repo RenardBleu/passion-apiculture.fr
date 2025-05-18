@@ -18,62 +18,22 @@
                 </tr>
             </thead>
             <tbody>
-                {% set commandes_exemple = [
-                    {
-                        'id': 8561487,
-                        'nomClient': 'Jean Dupont',
-                        'dateCommande': '2024-03-15 14:30',
-                        'total': 89.99,
-                        'statut': 'En attente'
-                    },
-                    {
-                        'id': 5428971,
-                        'nomClient': 'Marie Martin',
-                        'dateCommande': '2024-03-14 10:15',
-                        'total': 149.50,
-                        'statut': 'En préparation'
-                    },
-                    {
-                        'id': 1568374,
-                        'nomClient': 'Pierre Durand',
-                        'dateCommande': '2024-03-13 16:45',
-                        'total': 75.25,
-                        'statut': 'Payée'
-                    },
-                    {
-                        'id': 5489894,
-                        'nomClient': 'Sophie Leroy',
-                        'dateCommande': '2024-03-12 09:20',
-                        'total': 199.99,
-                        'statut': 'Livrée'
-                    }
-                ] %}
-
-                {% for commande in commandes_exemple %}
+                {% for commande in commandes %}
                     <tr>
-                        <td>N°{{ commande.id }}</td>
-                        <td>{{ commande.nomClient }}</td>
-                        <td>{{ commande.dateCommande|date('d/m/Y H:i') }}</td>
-                        <td>{{ commande.total }} €</td>
+                        <td>N°{{ commande.num }}</td>
+                        <td>{{ commande.nom }} {{ commande.prenom }}</td>
+                        <td>{{ commande.createAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ commande.montant }} €</td>
                         <td>
-                            <select class="form-select form-select-sm status-select" 
-                                    data-commande-id="{{ commande.id }}"
-                                    onchange="updateStatus(this)">
-                                <option value="En attente" {% if commande.statut == 'En attente' %}selected{% endif %}>
-                                    <i class="fas fa-clock"></i> En attente
-                                </option>
-                                <option value="En préparation" {% if commande.statut == 'En préparation' %}selected{% endif %}>
-                                    <i class="fas fa-box"></i> En préparation
-                                </option>
-                                <option value="Payée" {% if commande.statut == 'Payée' %}selected{% endif %}>
-                                    <i class="fas fa-check-circle"></i> Payée
-                                </option>
-                                <option value="Livrée" {% if commande.statut == 'Livrée' %}selected{% endif %}>
-                                    <i class="fas fa-truck"></i> Livrée
-                                </option>
-                                <option value="Annulée" {% if commande.statut == 'Annulée' %}selected{% endif %}>
-                                    <i class="fas fa-times-circle"></i> Annulée
-                                </option>
+                            <select class="form-select form-select-sm status-select"
+                                data-commande-id="{{ commande.num }}"
+                                data-tag-id="{{ commande.idTag }}"
+                                onchange="updateStatus(this)">
+                                {% for tag in liste %}
+                                    <option value="{{ tag.id }}" {% if commande.libelleTag == tag.libelle %}selected{% endif %}>
+                                        <i class="fas fa-clock"></i> {{ tag.libelle }}
+                                    </option> 
+                                {% endfor %}
                             </select>
                         </td>
                     </tr>

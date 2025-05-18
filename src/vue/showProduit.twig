@@ -1,0 +1,83 @@
+{% extends "base.twig" %}
+{% set admin = 'active-admin' %}
+{% block title %} {{ parent() }} Administration | Types {% endblock %}
+{% block contenu %}
+<div
+	class="row w-75 m-auto p-5">
+	<!-- Galerie d'images -->
+	<div class="col-md-6 mb-4">
+		<div class="card border-0">
+			<div class="position-relative">
+				<img src="/image/pot-de-miel.jpg" class="img-fluid rounded" alt="Miel de Lavande">
+				<span class="position-absolute top-0 end-0 badge bg-warning m-3">Nouveau</span>
+			</div>
+			<div class="d-flex mt-3 gap-2">
+				<img src="/image/pot-de-miel.jpg" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" alt="Vue 1">
+				<img src="/image/pot-de-miel.jpg" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" alt="Vue 2">
+				<img src="/image/pot-de-miel.jpg" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" alt="Vue 3">
+			</div>
+		</div>
+	</div>
+
+	<!-- Informations produit -->
+	<div class="col-md-6">
+		<h1 class="mb-3">Miel de Lavande</h1>
+		<h2 class="text-primary mb-4">12,90 €</h2>
+
+		<!-- Description -->
+		<p class="mb-4">
+			Notre miel de lavande est récolté dans les champs de Provence, où les abeilles butinent les fleurs de lavande sauvage. 
+			                    Ce miel cristallisé présente une couleur claire et un arôme délicat caractéristique de la lavande.
+		</p>
+
+		<!-- Caractéristiques -->
+		<div class="mb-4">
+			<h5>Caractéristiques :</h5>
+			<ul class="list-unstyled">
+				<li>
+					<i class="bi bi-check-circle-fill text-success me-2"></i>Origine : Provence, France</li>
+				<li>
+					<i class="bi bi-check-circle-fill text-success me-2"></i>Poids : 500g</li>
+				<li>
+					<i class="bi bi-check-circle-fill text-success me-2"></i>Production : Juillet 2023</li>
+				<li>
+					<i class="bi bi-check-circle-fill text-success me-2"></i>Conservation : 2 ans</li>
+			</ul>
+		</div>
+
+		<!-- Quantité et Ajout au panier -->
+		<div class="d-flex gap-3 mb-4">
+			<div class="input-group" style="width: 150px;">
+				<button class="btn btn-outline-secondary" type="button">-</button>
+				<input type="number" class="form-control text-center" value="1" min="1">
+				<button class="btn btn-outline-secondary" type="button">+</button>
+			</div>
+			<button class="btn btn-primary flex-grow-1">
+				<i class="bi bi-cart-plus me-2"></i>Ajouter au panier
+			</button>
+		</div>
+
+		<!-- Informations supplémentaires -->
+		<div class="border-top pt-4">
+			<div class="d-flex justify-content-between mb-3">
+				<span>
+					<i class="bi bi-truck me-2"></i>Livraison gratuite dès 50€</span>
+				<span>
+					<i class="bi bi-shield-check me-2"></i>Garantie satisfaction</span>
+			</div>
+			<div class="d-flex justify-content-between">
+				<span>
+					<i class="bi bi-arrow-return-left me-2"></i>Retours sous 14 jours</span>
+				<span>
+					<i class="bi bi-patch-check me-2"></i>Produit certifié</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row w-75 m-auto p-5">
+    <div>
+        <h2>Autres produit</h2>
+    </div>
+    <div></div>
+</div>
+{% endblock %}

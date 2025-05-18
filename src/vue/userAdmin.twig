@@ -29,7 +29,7 @@
                                     <td>{{u.nom}}</td>
                                     <td>{{u.prenom}}</td>
                                     <td>{{u.libellerole}}</td>
-                                    <td>{{u.updateAt}}</td>
+                                    <td>{{u.updateAt|date('d/m/Y H:i')}}</td>
                                     <td class="text-end">
                                         <div class="btn-group">
                                             <a href="index.php?page=user-edit&id={{u.id}}" class="btn btn-sm btn-outline-primary">

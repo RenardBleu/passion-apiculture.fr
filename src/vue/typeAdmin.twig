@@ -28,7 +28,7 @@
                                 {% if t.deleteAt == null %}
                                     <td>{{t.libelle}}</td>
                                     <td>{{t.nbr_produits}}</td>
-                                    <td>{{t.updateAt}}</td>
+                                    <td>{{t.updateAt|date('d/m/Y H:i')}}</td>
                                     <td class="text-end">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModalType" data-bs-idEditType="{{t.id}}" data-bs-nameEditType="{{t.libelle}}">

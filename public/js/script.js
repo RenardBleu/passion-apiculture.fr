@@ -92,3 +92,14 @@ if (editModalProduit) {
     modalProduitForm.action = `index.php?page=admin-produit-edit&id=${produitId}`
   })
 }
+
+function updateStatus(selectElement) {
+    const commandeId = selectElement.getAttribute('data-commande-id');
+    const newStatus = selectElement.value;
+    
+    // Mettre à jour l'attribut data-value pour le style
+    selectElement.setAttribute('data-value', newStatus);
+    
+    // Redirection vers la page PHP qui gère la mise à jour
+    window.location.href = `index.php?page=admin-commande-update-status&id=${commandeId}&status=${newStatus}`;
+}

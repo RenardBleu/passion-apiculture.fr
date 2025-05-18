@@ -31,20 +31,24 @@
     --bs-btn-disabled-border-color: #0d6efd;
 }
 .form-control:focus{
-    border-color: var(--primary-color-focus-border)!important;
+    border: none;
     box-shadow: 0 0 0 .25rem var(--primary-color-focus-border)!important;
 }
 .form-select:focus{
-    border-color: var(--primary-color-focus-border)!important;
+    border: none;
     box-shadow: 0 0 0 .25rem var(--primary-color-focus-border)!important;
 }
 .btn:focus{
-    border-color: var(--primary-color-focus-border)!important;
     box-shadow: 0 0 0 .25rem var(--primary-color-focus-border)!important;
 }
 .btn-primary:hover{
     background-color: var(--primary-color-hover)!important;
     border-color: var(--primary-color-hover)!important;
+}
+.btn-primary:active{
+    background-color: var(--primary-color)!important;
+    border-color: var(--primary-color)!important;
+    color: #000 !important;
 }
 .navbar{
     width: 100%;
@@ -65,6 +69,10 @@
 }
 .btn-secondary:hover{
     background: rgb(106, 87, 43) !important;
+}
+.btn-secondary:active{
+    background: rgb(122, 101, 52) !important;
+    color: #fff !important;
 }
 .active > .nav-link{
     padding: 8px 15px !important;
@@ -257,44 +265,125 @@ nav .nav-item .admin{
     font-weight: 500;
 }
 
+/* Couleurs du select en fonction de la valeur */
+.status-select[data-tag-id="1"] {
+    background-color: #FFE5B4 !important; /* Pêche pastel */
+    color: #8B4513 !important;
+}
+
+.status-select[data-tag-id="1"]:focus {
+    box-shadow: 0 0 0 .25rem rgba(139, 69, 19, 0.25) !important;
+    outline: none !important;
+}
+
+.status-select[data-tag-id="2"] {
+    background-color: #B5EAD7 !important; /* Menthe pastel */
+    color: #2F4F4F !important;
+}
+
+.status-select[data-tag-id="2"]:focus {
+    box-shadow: 0 0 0 .25rem rgba(47, 79, 79, 0.25) !important;
+    outline: none !important;
+}
+
+.status-select[data-tag-id="3"] {
+    background-color: #C7CEEA !important; /* Bleu pastel */
+    color: #1B365D !important;
+}
+
+.status-select[data-tag-id="3"]:focus {
+    box-shadow: 0 0 0 .25rem rgba(27, 54, 93, 0.25) !important;
+    outline: none !important;
+}
+
+.status-select[data-tag-id="4"] {
+    background-color: #E2F0CB !important; /* Vert pastel */
+    color: #2E5A1C !important;
+}
+
+.status-select[data-tag-id="4"]:focus {
+    box-shadow: 0 0 0 .25rem rgba(46, 90, 28, 0.25) !important;
+    outline: none !important;
+}
+
+.status-select[data-tag-id="5"] {
+    background-color: #FFB7B2 !important; /* Rose pastel */
+    color: #8B0000 !important;
+}
+
+.status-select[data-tag-id="5"]:focus {
+    box-shadow: 0 0 0 .25rem rgba(139, 0, 0, 0.25) !important;
+    outline: none !important;
+}
+
+.status-select[data-tag-id="6"] {
+    background-color: #D8BFD8 !important; /* Lavande pastel */
+    color: #4B0082 !important;
+}
+
+.status-select[data-tag-id="6"]:focus {
+    box-shadow: 0 0 0 .25rem rgba(75, 0, 130, 0.25) !important;
+    outline: none !important;
+}
+
+/* Couleurs des options */
 .status-select option {
     padding: 8px;
     font-weight: 500;
 }
 
 /* Couleurs des statuts en tons pastels */
-.status-select option[value="En attente"] {
+.status-select option[value="1"] {
     background-color: #FFE5B4; /* Pêche pastel */
     color: #8B4513;
 }
 
-.status-select option[value="En préparation"] {
+.status-select option[value="2"] {
     background-color: #B5EAD7; /* Menthe pastel */
     color: #2F4F4F;
 }
 
-.status-select option[value="Payée"] {
+.status-select option[value="3"] {
     background-color: #C7CEEA; /* Bleu pastel */
     color: #1B365D;
 }
 
-.status-select option[value="Livrée"] {
+.status-select option[value="4"] {
     background-color: #E2F0CB; /* Vert pastel */
     color: #2E5A1C;
 }
 
-.status-select option[value="Annulée"] {
+.status-select option[value="5"] {
     background-color: #FFB7B2; /* Rose pastel */
     color: #8B0000;
 }
 
+.status-select option[value="6"] {
+    background-color: #D8BFD8; /* Lavande pastel */
+    color: #4B0082;
+}
+
 /* Style du select quand il est ouvert */
 .status-select:focus {
-    border-color: var(--primary-color-focus-border) !important;
     box-shadow: 0 0 0 .25rem var(--primary-color-focus-shadow) !important;
 }
 
 /* Style pour l'option sélectionnée */
 .status-select option:checked {
     font-weight: bold;
+}
+
+.btn-success:focus{
+    box-shadow: 0 0 0 .25rem rgba(25, 135, 84, 0.25) !important;
+    outline: none !important;
+}
+
+.btn-danger:focus{
+    box-shadow: 0 0 0 .25rem rgba(220, 53, 69, 0.25) !important;
+    outline: none !important;
+}
+
+.btn-light:focus{
+    box-shadow: 0 0 0 .25rem rgba(248, 249, 250, 0.25) !important;
+    outline: none !important;
 }

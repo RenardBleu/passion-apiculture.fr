@@ -4,3 +4,4 @@
     require_once 'class_type.php';
     require_once 'class_tag.php';
     require_once 'class_role.php';
+    require_once 'class_commande.php';

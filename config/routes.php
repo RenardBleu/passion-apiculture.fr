@@ -18,6 +18,8 @@
         $lesPages['admin-type-edit'] = "AdminTypeEditControleur";
         $lesPages['admin-type-add'] = "AdminTypeAddControleur";
         $lesPages['admin-commande'] = "AdminCommandeControleur";
+        $lesPages['admin-commande-update-status'] = "AdminCommandeUpdateControleur";
+        $lesPages['show-produit'] = "ShowProduitControleur";
         $lesPages['maintenance'] = "maintenanceControleur";
             if($db != null){
                 if (isset($_GET['page'])){
