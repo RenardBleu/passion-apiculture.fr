@@ -60,7 +60,7 @@ function AdminProduitAddControleur($twig, $db){
         $nom = $_POST['nom'];
         $prix = $_POST['prix'];
         $type = $_POST['type'];
-        $miniature = $_POST['miniature'];
+        $miniature = null;
         $description =$_POST['description'];
         $form['alert'] = [
             "msg" => "Produit ajouté avec succès !",
@@ -74,7 +74,9 @@ function AdminProduitAddControleur($twig, $db){
         }else{
             try{
                 $produit = new Produit($db);
-                $produit->insert($nom, $description, $prix, $type, $miniature);
+                $upload = new Upload(array('png', 'gif', 'jpg', 'jpeg'), 'image/uploaded_image', 500000);
+                $miniature = $upload->enregistrer('miniature');
+                $produit->insert($nom, $description, $prix, $type, $miniature['nom']);
             }
             catch(Exception $e){
                 $form['alert'] = [
@@ -86,15 +88,15 @@ function AdminProduitAddControleur($twig, $db){
         $form['nom'] = $nom;
         $form['prix'] = $prix;
     }
-    if ($_SESSION["role"] == 1){
-        echo $twig ->render('ProduitAdminAdd.twig', array('form'=>$form,'liste'=>$liste));
-    }else {
+    if ($_SESSION["role"] != 1){
         $form['alert'] = [
             "msg" => "Vous n'avez pas la permission pour ajouter un produit !",
             "type" => 'danger'
         ];
         $_SESSION['alert'] = $form['alert'];
         header("Location:index.php");
+    }else{
+        header("Location:index.php?page=admin-produits");
     }
 }
 

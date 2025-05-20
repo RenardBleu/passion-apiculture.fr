@@ -5,3 +5,4 @@
     require_once 'class_tag.php';
     require_once 'class_role.php';
     require_once 'class_commande.php';
+    require_once 'class_upload.php';
