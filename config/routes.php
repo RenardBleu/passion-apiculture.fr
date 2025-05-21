@@ -15,6 +15,7 @@
         $lesPages['admin-produit-edit'] = "AdminProduitEditControleur";
         $lesPages['admin-types'] = "AdminTypeControleur";
         $lesPages['admin-type-delete'] = "AdminTypeDeleteControleur";
+        $lesPages['admin-delete-image'] = "AdminProduitDeleteImageControleur";
         $lesPages['admin-type-edit'] = "AdminTypeEditControleur";
         $lesPages['admin-type-add'] = "AdminTypeAddControleur";
         $lesPages['admin-commande'] = "AdminCommandeControleur";

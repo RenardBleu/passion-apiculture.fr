@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-modal" data-bs-id="{{p.id}}" data-bs-name="{{p.title}}">Supprimer</button>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModalProduit" data-bs-id="{{p.id}}" data-bs-name="{{p.title}}" data-bs-prix="{{p.prix}}" data-bs-description="{{p.description}}" data-bs-type="{{p.libelletype}}">Modifier</button>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModalProduit" data-bs-id="{{p.id}}" data-bs-name="{{p.title}}" data-bs-prix="{{p.prix}}" data-bs-description="{{p.description}}" data-bs-type="{{p.libelletype}}" data-bs-miniature="{{p.miniature}}" data-bs-stock="{{p.stock}}" data-bs-caracteristiques="{{p.caracteristiques}}">Modifier</button>
                                 <a class="btn btn-success" href="index.php?page=show-produit&id={{p.id}}">Voir</a>
                             </div>
                         </div>
@@ -69,6 +69,21 @@
         </div>
     </div>
 
+    <div class="modal fade" id="delete-image-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog alert-danger">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Voulez-vous vraiment suprimer cette image ?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btn-delete-image" href="#" class="btn btn-danger">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Ajout -->
     <div class="modal fade" id="addModalProduit" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
@@ -77,33 +92,42 @@
                     <h5 class="modal-title">Ajouter un produit</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                    <form action="index.php?page=admin-produit-add" method="post" enctype="multipart/form-data">>
+                    <form action="index.php?page=admin-produit-add" method="post" enctype="multipart/form-data">
                         <div class="modal-body row g-2">
                             <div class="col-md-8">
-                                <label for="nom" class="form-label">Nom</label>
+                                <label for="nom" class="form-label">Nom<span class="text-danger">*</span></label>
                                 <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom du produit" required>
                             </div>
                             <div class="col-md-4">
-                                <label for="prix" class="form-label">prix</label>
+                                <label for="prix" class="form-label">prix<span class="text-danger">*</span></label>
                                 <input step="0.01" name="prix" type="number" class="form-control" id="prix" placeholder="prix du produit" required>
                             </div>
                             <div class="col-12">
-                                <label for="description">Description</label>
+                                <label for="description">Description<span class="text-danger">*</span></label>
                                 <textarea name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
                             </div>
+                            <div class="col-12">
+                                <label for="caracteristiques">Caractéristique (séparer les données par des //)</label>
+                                <textarea name="caracteristiques" class="form-control" placeholder="Caracteristiques du produit : donnée1//donnée2//..." id="caracteristiques" style="height: 100px"></textarea>
+                            </div>
                             <div class="col-md-4">
-                                <label for="inputState" class="form-label">Type</label>
+                                <label for="inputState" class="form-label">Type<span class="text-danger">*</span></label>
                                 <select class="form-select" aria-label="Default select example" name="type" required>
-                                    <option selected value="0">Type du produit</option>
+                                    <option selected value="0">Type du produit<span class="text-danger">*</span></option>
                                     {% for t in type %}
                                         <option value="{{ t.id }}">{{ t.libelle }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-md-8 pb-4">
+                            <div class="col-md-8">
                                 <label for="formFile" class="form-label">Miniature du produit</label>
                                 <input name="miniature" class="form-control" type="file" id="formFile">
                             </div>
+                            <div class="col-md-4">
+                                <label for="stock" class="form-label">Stock de départ</label>
+                                <input step="1" name="stock" type="number" value="0" class="form-control" id="stock" placeholder="Stock de départ">
+                            </div>
+                            <p class="pb-4"><span class="text-danger">*</span> Signifie que ce champ est obligatoire</p>
                         </div>
                         <div class="modal-footer border-0">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
@@ -123,7 +147,7 @@
                     <h5 class="modal-title">Modifier un produit</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="index.php?page=admin-produit-edit" method="post" id="product-edit-form" enctype="application/x-www-form-urlencoded">
+                <form action="index.php?page=admin-produit-edit" method="post" id="product-edit-form" enctype="multipart/form-data">
                     <div class="modal-body row g-2">
                         <div class="col-md-8">
                             <label for="nom" class="form-label">Nom</label>
@@ -137,6 +161,10 @@
                             <label for="description">Description</label>
                             <textarea name="description" class="form-control" placeholder="Description du produit" id="description" style="height: 100px" required></textarea>
                         </div>
+                        <div class="col-12">
+                                <label for="caracteristiques">Caractéristique (séparer les données par des //)</label>
+                                <textarea name="caracteristiques" class="form-control" placeholder="Caracteristiques du produit : donnée1//donnée2//..." id="caracteristiques" style="height: 100px"></textarea>
+                            </div>
                         <div class="col-md-4">
                             <label for="inputState" class="form-label">Type</label>
                             <select class="form-select" aria-label="Default select example" name="type" required>
@@ -147,9 +175,14 @@
                             </select>
                             <small><i>Type actuel : <b id="textSelectType"></b></i></small>
                         </div>
-                        <div class="col-md-8 pb-4">
-                            <label for="formFile" class="form-label">Miniature du produit</label>
-                            <input name="miniature" class="form-control" type="file" id="formFile">
+                        <div class="col-md-8 pb-4" id="miniature-content"></div>
+                        <div class="col-md-4">
+                            <label for="stock" class="form-label">Stock de départ</label>
+                            <div class="input-group mb-3">
+                                <button class="btn btn-outline-secondary" type="button">-</button>
+                                <input step="1" name="stock" type="number" value="0" class="form-control" id="stock" placeholder="Stock de départ">
+                                <button class="btn btn-outline-secondary" type="button">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer border-0">

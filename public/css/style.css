@@ -387,3 +387,47 @@ nav .nav-item .admin{
     box-shadow: 0 0 0 .25rem rgba(248, 249, 250, 0.25) !important;
     outline: none !important;
 }
+.card-image{
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 600px;
+    display: flex;
+}
+.notif-panier{
+    position: relative;
+    height: max-content;
+    transform: translateX(-25px);
+}
+.panier-content{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.delete-btn{
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    display: flex;
+}
+.delete-btn .middle{
+    transition: .3s ease;
+    font-size: 3rem;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+}
+.delete-btn img{
+    transition: .3s ease;
+}
+.delete-btn:hover .middle{
+    opacity: 1;
+}
+.delete-btn:hover img{
+    opacity: 0.6;
+}
+.delete-btn.border{
+    border-style: dotted !important;
+}
