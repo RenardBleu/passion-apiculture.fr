@@ -114,7 +114,12 @@ if (editModalProduit) {
       <input name="miniature" class="form-control" type="file" id="formFile">
       `
     }
-    modalProduitStock.value = produitStock
+    if (produitStock !== ''){
+      modalProduitStock.value = produitStock
+    }else{
+      modalProduitStock.value = 0
+    }
+    console.log(produitCaracteristique)
     modalProduitCaracteristique.value = produitCaracteristique
   })
 }

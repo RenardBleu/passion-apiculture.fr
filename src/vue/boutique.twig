@@ -1,0 +1,52 @@
+{% extends "base.twig" %}
+{% set boutique = 'active' %}
+{% block title %} {{ parent() }} Galerie des Produits{% endblock %}
+
+{% block contenu %}
+<div class="container py-3">
+    <h1 class="text-center mb-4">Nos Produits</h1>
+    
+    {% if form.alert is defined %}
+        <div class="alert alert-{{ form.alert.type }} alert-dismissible fade show" role="alert">
+            {{ form.alert.msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+        {% for produit in liste %}
+            {% if produit.deleteAt is null %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        {% if produit.miniature %}
+                            <img src="{{ produit.miniature }}" class="card-img-top" alt="{{ produit.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="bi bi-card-image fs-1 text-muted"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="card-body p-2">
+                            <h6 class="card-title mb-1">{{ produit.title }}</h6>
+                            <p class="card-text text-muted small mb-1">{{ produit.libelletype }}</p>
+                            <p class="card-text small mb-1">{{ produit.description|slice(0, 60) }}{% if produit.description|length > 60 %}...{% endif %}</p>
+                            <p class="card-text mb-1">
+                                <strong class="text-primary">{{ produit.prix }} €</strong>
+                            </p>
+                            {% if produit.stock > 0 %}
+                                <p class="card-text text-success small mb-1">Stock : {{ produit.stock }}</p>
+                            {% else %}
+                                <p class="card-text text-danger small mb-1">Rupture de stock</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-footer bg-white border-top-0 p-2">
+                            <a href="index.php?page=show-produit&id={{ produit.id }}" class="btn btn-sm btn-primary w-100">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

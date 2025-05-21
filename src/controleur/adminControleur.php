@@ -74,7 +74,6 @@ function AdminProduitAddControleur($twig, $db){
                 "type" => 'danger'
             ];
         }else{
-            dump($nom, $description, $prix, $type, $miniature['nom'], $caracteristiques, $stock);
             try{
                 $produit = new Produit($db);
                 $upload = new Upload(array('png', 'gif', 'jpg', 'jpeg'), 'image/uploaded_image', 5000000);
@@ -147,16 +146,6 @@ function AdminProduitEditControleur($twig, $db){
                         }
                     }else{
                         $produit->update($id, $title, $description, $prix, $type, $unProduit['miniature'], $caracteristiques, $stock);
-                    }
-                    $upload = new Upload(array('png', 'gif', 'jpg', 'jpeg'), 'image/uploaded_image', 5000000);
-                    $miniature = $upload->enregistrer('miniature');
-                    if ($miniature['erreur'] != null){
-                        $form['alert'] = [
-                            "msg" => "Erreur lors de la modification du produit : " . $miniature['erreur'],
-                            "type" => 'danger'
-                        ];
-                    }else{
-                        $produit->update($id, $title, $description, $prix, $type, $miniature['nom']);
                     }
                 }catch(Exception $e){
                     $form['alert'] = [

@@ -34,6 +34,9 @@
                             <li class="nav-item {{ legal|default(' ') }}">
                                 <a class="nav-link text-dark" href="index.php?page=legal">Mention légale</a>
                             </li>
+                            <li class="nav-item {{ boutique|default(' ') }}">
+                                <a class="nav-link text-dark" href="index.php?page=boutique">Boutique</a>
+                            </li>
                             {% if session.role == 1 %}
                                 <li class="nav-item dropdown admin-dropdown {{ admin|default(' ') }}">
                                     <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

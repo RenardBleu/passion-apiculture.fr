@@ -37,10 +37,22 @@ class Upload{
                             'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ',
                             'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
                             // remplacer les caractères autres que lettres, chiffres et point par _
+                            if(!file_exists($this->chemin.'/'.$_FILES[$data]['name'])){
                             $fichier['nom'] = preg_replace('/([^.a-z0-9]+)/i', '_', $fichier['nom']);
                             // copie du fichier
-                            move_uploaded_file($_FILES[$data]['tmp_name'], $this->chemin.'/'.$fichier['nom']);
-                            $fichier['nom'] = '/'.$this->chemin.'/'.$fichier['nom'];
+                            $i = 0;
+                            $nomFichier = substr($fichier['nom'], 0, -strlen(strrchr($fichier['nom'], '.')));
+                            $extension = strrchr($fichier['nom'], '.');
+                            $cheminComplet = $this->chemin.'/'.$nomFichier.$extension;
+                            
+                            while(file_exists($cheminComplet)) {
+                                $i++;
+                                $cheminComplet = $this->chemin.'/'.$nomFichier.'_'.$i.$extension;
+                            }
+                            
+                            move_uploaded_file($_FILES[$data]['tmp_name'], $cheminComplet);
+                            $fichier['nom'] = '/'.$this->chemin.'/'.$nomFichier.($i > 0 ? '_'.$i : '').$extension;
+                            }
                         }
                     }
                 }

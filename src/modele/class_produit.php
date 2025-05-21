@@ -14,9 +14,9 @@ class Produit
         $this->db = $db;
         $this->insert = $this->db->prepare("insert into produit(title, description, prix, idType, miniature, caracteristiques, stock) values (:title, :description, :prix, :type, :miniature, :caracteristiques, :stock)"); // Étape 2
         $this->produit = $this->db->prepare("select id,title, description, prix, idType, miniature, updateAt, deleteAt, caracteristiques, stock from produit where id=:id");
-        $this->select = $db->prepare("select p.id, title, description, prix, miniature, p.updateAt, p.deleteAt, t.libelle as libelletype from produit p, type t where p.idType = t.id order by title");
+        $this->select = $db->prepare("select p.id, title, description, prix, miniature, caracteristiques, stock, p.updateAt, p.deleteAt, t.libelle as libelletype from produit p, type t where p.idType = t.id order by title");
         $this->deleteById = $db->prepare("update produit set deleteAt=now() where id=:id");
-        $this->update = $db->prepare("update produit set title=:title, description=:description, prix=:prix, idType=:type, miniature=:miniature, updateAt=now() where id=:id");
+        $this->update = $db->prepare("update produit set title=:title, description=:description, prix=:prix, idType=:type, miniature=:miniature, caracteristiques=:caracteristiques, stock=:stock, updateAt=now() where id=:id");
         $this->deleteImage = $db->prepare("update produit set miniature=null, updateAt=now() where miniature=:miniature");
     }
 
@@ -55,9 +55,9 @@ class Produit
         }
         return $this->deleteById->fetch();
     }
-    public function update($id, $title, $description, $prix, $type, $miniature){
+    public function update($id, $title, $description, $prix, $type, $miniature, $caracteristiques, $stock){
         $r = true;
-        $this->update->execute(array(':id' => $id, ':title' => $title, ':description' => $description, ':prix' => $prix, ':type' => $type, ':miniature' => $miniature));
+        $this->update->execute(array(':id' => $id, ':title' => $title, ':description' => $description, ':prix' => $prix, ':type' => $type, ':miniature' => $miniature, ':caracteristiques' => $caracteristiques, ':stock' => $stock));
         if ($this->update->errorCode()!=0){
             print_r($this->update->errorInfo());
             $r=false;
