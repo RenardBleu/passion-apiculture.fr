@@ -21,7 +21,11 @@
         $lesPages['admin-commande'] = "AdminCommandeControleur";
         $lesPages['admin-commande-update-status'] = "AdminCommandeUpdateControleur";
         $lesPages['boutique'] = "BoutiqueProduitControleur";
+        $lesPages['recherche'] = "rechercheControleur";
         $lesPages['show-produit'] = "ShowProduitControleur";
+        $lesPages['panier'] = "PanierControleur";
+        $lesPages['add-panier'] = "PanierAddControleur";
+        $lesPages['delete-panier-all'] = "PanierDeleteAllControleur";
         $lesPages['maintenance'] = "maintenanceControleur";
             if($db != null){
                 if (isset($_GET['page'])){

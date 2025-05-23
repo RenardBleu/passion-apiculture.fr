@@ -3,8 +3,8 @@
 {% block title %} {{ parent() }} Administration | Types {% endblock %}
 {% block contenu %}
 
-
-{% if form.produit is defined %}
+<div class="container py-3">
+	{% if form.produit is defined %}
         {% if form.produit != null %}
         	<div class="row w-75 m-auto p-5">
 				<!-- Galerie d'images -->
@@ -16,12 +16,22 @@
 				</div>
 
 				<!-- Informations produit -->
+				{% if form.produit.stock <= form.quantite_panier %}
+					{% set panier_rupture = true %}
+				{% else %}
+					{% set panier_rupture = false %}
+				{% endif %}
 				<div class="col-md-6">
 					<h1 class="mb-3">{{ form.produit.title }}</h1>
-					{% if form.produit.stock != 0 %}
+					{% if form.produit.stock != 0 and panier_rupture == false %}
 						<h2 class="text-primary mb-4">{{ form.produit.prix }} €</h2>
 					{% else %}
 						<h2 class="text-danger mb-4">Rupture de stock</h2>
+					{% endif %}
+					{% if form.quantite_panier > 0 %}
+						<div class="alert alert-info mb-4">
+							<i class="bi bi-cart-check me-2"></i>Vous avez {{ form.quantite_panier }} exemplaire(s) de ce produit dans votre panier
+						</div>
 					{% endif %}
 					<!-- Description -->
 					<p class="mb-4">{{ form.produit.description }}</p>
@@ -38,18 +48,33 @@
 						{% endif %}
 					</div>
 
-					<!-- Quantité et Ajout au panier -->
-					{% if form.produit.stock != 0 %}
-						<div class="d-flex gap-3 mb-4">
-							<div class="input-group" style="width: 150px;">
-								<button class="btn btn-outline-secondary" type="button">-</button>
-								<input max={{ form.produit.stock }} type="number" class="form-control text-center" value="1" min="1">
-								<button class="btn btn-outline-secondary" type="button">+</button>
+					{% if form.produit.stock != 0 and panier_rupture == false %}
+						{% if session.login is defined %}
+							<div class="d-flex mb-4">
+								<form class="d-flex gap-3 w-100" action="index.php?page=add-panier" method="post" enctype="application/xwww-form-urlencoded">
+									<div class="input-group" style="width: 150px;">
+										<button class="btn btn-outline-secondary" type="button">-</button>
+										<input max={{ form.produit.stock - form.quantite_panier }} name="quantite" type="number" class="form-control text-center" value="1" min="1">
+										<button class="btn btn-outline-secondary" type="button">+</button>
+									</div>
+									<button type="submit" name="btAjoutP" class="btn btn-primary flex-grow-1">
+										<i class="bi bi-cart-plus me-2"></i>Ajouter au panier
+									</button>
+									<input type="hidden" name="id" value="{{ form.produit.id }}" />
+								</form>
 							</div>
-							<button class="btn btn-primary flex-grow-1">
-								<i class="bi bi-cart-plus me-2"></i>Ajouter au panier
-							</button>
-						</div>
+						{% else %}
+							<div class="d-flex gap-3 mb-4">
+								<div class="input-group" style="width: 150px;">
+									<button class="btn btn-outline-secondary" type="button">-</button>
+									<input max={{ form.produit.stock }} type="number" class="form-control text-center" value="1" min="1">
+									<button class="btn btn-outline-secondary" type="button">+</button>
+								</div>
+								<a href="index.php?page=login" class="btn btn-primary flex-grow-1">
+									<i class="bi bi-cart-plus me-2"></i>Ajouter au panier
+								</a>
+							</div>
+						{% endif %}
 					{% else %}
 						<div class="d-flex gap-3 mb-4">
 							<div class="input-group" style="width: 150px;">
@@ -108,4 +133,5 @@
                 </div>
             </div>
     {% endif %}
+</div>
 {% endblock %}

@@ -6,6 +6,7 @@ class Utilisateur
     private $connect;
     private $update;
     private $selectById;
+    private $selectByEmail;
 
     private $select;
 
@@ -17,6 +18,7 @@ class Utilisateur
         $this->select = $db->prepare("select u.id, email, idRole, nom, prenom, updateAt, deleteAt, r.libelle as libellerole from users u, role r where u.idRole = r.id order by nom");
         $this->selectById = $db->prepare("select u.id, email, idRole, nom, prenom, mdp, updateAt, deleteAt, r.libelle as libellerole from users u, role r where u.id=:id");
         $this->update = $db->prepare("update users set nom=:nom, prenom=:prenom, idRole=:role, mdp=:mdp, updateAt=now() where id=:id");
+        $this->selectByEmail = $db->prepare("select id, email, idRole, nom, prenom, mdp, updateAt, deleteAt from users where email=:email");
     }
 
     public function insert($email, $mdp, $nom, $prenom, $role)
@@ -62,4 +64,13 @@ class Utilisateur
         }
         return $r;
     }
+    public function selectByEmail($email){
+        $this->selectByEmail->execute(array(':email' => $email));
+        if ($this->selectByEmail->errorCode()!=0){
+            print_r($this->selectByEmail->errorInfo());
+        }
+        return $this->selectByEmail->fetch();
+    }
+}
+?>
 }

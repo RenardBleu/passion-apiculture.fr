@@ -30,6 +30,14 @@
     --bs-btn-disabled-bg: #0d6efd;
     --bs-btn-disabled-border-color: #0d6efd;
 }
+.btn-outline-primary{
+    border-color: var(--primary-color)!important;
+    color: var(--primary-color)!important;
+}
+.btn-outline-primary:hover{
+    background-color: var(--primary-color)!important;
+    color: #fff!important;
+}
 .form-control:focus{
     border: none;
     box-shadow: 0 0 0 .25rem var(--primary-color-focus-border)!important;
@@ -89,7 +97,7 @@
     color: #fff !important;
 }
 .navbar .nav-item .nav-link:hover{
-    padding: 8px 20px;
+    padding: 8px 20px; 
     border-radius: 50px;
     background: var(--primary-color);
 }
@@ -107,7 +115,7 @@
 }
 .navbar .nav-item .nav-link{
     max-width: max-content;
-    padding: 8px 15px!important;
+    padding: 8px 15px !important;
     margin: 0 5px!important;
     border-radius: 50px;
     background: rgba(255, 255, 255, 0);
@@ -125,6 +133,10 @@
     justify-content: center;
     border-radius: 200px;
 }
+.navbar .panier-content .badge{
+    pointer-events: none;
+    top: -10px;
+}
 
 
 
@@ -137,7 +149,7 @@ tbody, td, tfoot, th, thead, tr{
 
 
 
-.navbar .nav-item .nav-link-icon i:hover{
+.navbar .nav-item .nav-link-icon:hover > i{
     background: var(--primary-color);
 }
 .banner-acceuil {
@@ -227,6 +239,10 @@ tbody, td, tfoot, th, thead, tr{
     width: 20vw;
 }
 
+.navbar-nav .nav-item{
+    display: flex;
+    align-items: center;
+}
 
 nav .nav-item .admin{
     color: var(--bs-danger);
@@ -430,4 +446,31 @@ nav .nav-item .admin{
 }
 .delete-btn.border{
     border-style: dotted !important;
+}
+.navbar .nav-item .search i{
+    font-size: 16px !important;
+    margin: 0 0 0 10px !important;
+    padding: 0 !important;
+}
+.navbar .nav-item .search{
+    display: flex !important;
+    align-items: center;
+}
+@media (min-width: 1130px) {
+    .navbar-expand-lg .navbar-toggler {
+        display: none!important;
+    }
+    .navbar-expand-lg .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto;
+    }
+}
+
+.panier-content .dropdown-toggle::after{
+    width: 10px;
+    margin: auto;
+}
+.dropdown-toggle{
+    display: flex;
+    flex-direction: column;
 }

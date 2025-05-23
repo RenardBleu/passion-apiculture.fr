@@ -12,6 +12,13 @@ function ShowProduitControleur($twig, $db){
         if(isset($unProduit)){
             if($unProduit['deleteAt'] == null){
                 $form['produit'] = $unProduit;
+                
+                // Vérifier si le produit est dans le panier
+                if(isset($_SESSION['panier']) && array_key_exists($unProduit['id'], $_SESSION['panier'])) {
+                    $form['quantite_panier'] = $_SESSION['panier'][$unProduit['id']]['quantite'];
+                } else {
+                    $form['quantite_panier'] = 0;
+                }
 
                 if(isset($form['produit']['caracteristiques'])){
                     $caracteristiques = explode('//', $form['produit']['caracteristiques']);
@@ -29,5 +36,10 @@ function ShowProduitControleur($twig, $db){
     }else{
         $form['message'] = 'id du produit non renseigné';
     }
+    if (isset($_SESSION['alert'])) {
+        $form['alert'] = $_SESSION['alert'];
+        unset($_SESSION['alert']);
+    }
     echo $twig ->render('showProduit.twig', array('form'=>$form,'liste'=>$liste));
+    dump($_SESSION);
 }

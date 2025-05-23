@@ -52,9 +52,24 @@
                             {% endif %}
                         </ul>
                     </div>
+                    {% set total = 0 %}
+                    {% set total_prix = 0 %}
+                    {% if session.panier is defined %}
+                        {% for id in session.panier %}
+                            {% set total = total + id.quantite %}
+                            {% set total_prix = total_prix + id.prix %}
+                        {% endfor %}
+                        {% if total > 99 %}
+                            {% set total = '99+' %}
+                        {% endif %}
+                    {% endif %}
+
                     <div class="d-flex align-items-center align-content-center">
+                        <div class="nav-item">
+                            <button type="button" class="nav-link nav-link-icon text-dark search" data-bs-toggle="modal" data-bs-target="#ModalRecherche">Recherche<i class="bi bi-search"></i></button>
+                        </div>
                         <ul class="navbar-nav align-items-center align-content-center">
-                            {%if session.login is defined %}
+                            {% if session.login is defined %}
                                 <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=logout">Se déconnecter</a></li>
                                 <li class="nav-item d-flex flex-column align-items-end">
                                     <p class="m-0">{{session.fname}}</p>
@@ -71,10 +86,46 @@
                                 <a class="nav-link-icon text-dark" href="#"><i class="bi bi-person-circle"></i></a>
                             </li>
                             <li class="nav-item panier-content">
-                                <span class="top-0 badge rounded-pill bg-danger notif-panier">
-                                    99+<span class="visually-hidden">unread messages</span>
-                                </span>
-                                <a class="nav-link-icon text-dark" href=""><i class="bi bi-cart-fill"></i></a>
+                            {% if total > 0 %}
+                                <span class="badge rounded-pill bg-danger notif-panier">{{ total }}</span>
+                            {%  endif %}
+                                <a class="nav-link-icon text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-cart-fill"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end cart-dropdown" style="width: 300px; padding: 1rem;">
+                                    <div class="cart-items">
+                                        <!-- Exemple d'items du panier -->
+                                        {% if session.panier is defined %}
+                                            {% for article in session.panier %}
+                                                <div class="cart-item d-flex justify-content-between align-items-center mb-2">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="ms-2">
+                                                            <h6 class="mb-0 small">{{ article.nom }}</h6>
+                                                            <small class="text-muted">x{{ article.quantite }}</small>
+                                                        </div>
+                                                    </div>
+                                                    <span class="fw-bold">{{ article.prix }} €</span>
+                                                </div>
+                                            {% endfor %}
+                                            <div class="cart-summary mt-2 pt-2 border-top">
+                                                <div class="d-flex justify-content-between mb-1">
+                                                    <span class="small">Total</span>
+                                                    <span class="fw-bold">{{ total_prix }} €</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex gap-2 mt-3">
+                                                <a href="index.php?page=panier" class="btn btn-primary btn-sm flex-grow-1">
+                                                    <i class="bi bi-cart-check me-1"></i>Voir ou modifier le panier
+                                                </a>
+                                                <a href="index.php?page=delete-panier-all" type="button" class="btn btn-outline-danger btn-sm">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </div>  
+                                        {% else %}
+                                            <p>Aucun produit dans le panier.</p>
+                                        {% endif %}
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -124,7 +175,105 @@
 
             {% block contenu %}
             {% endblock %}
+            <div class="modal fade" id="ModalRecherche" tabindex="-1" role="dialog" aria-labelledby="modalRecherche" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Rechercher </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="index.php?page=recherche" method="post" class="form-inline d-flex my-2 my-lg-0 nav-item" style="gap: 10px;">
+                                <input class="form-control mr-sm-2" name="recherche" type="search" placeholder="Tapez votre recherche">
+                                <button class="btn d-flex btn-outline-primary my-2 my-sm-0" name="btnRecherche" type="submit">Rechercher <i class="bi bi-search mx-2"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
+        <!-- Modal Panier -->
+        <div class="modal fade" id="ModalPanier" tabindex="-1" role="dialog" aria-labelledby="modalPanier" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPanierLabel">Votre panier</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="cart-items">
+                            <!-- Exemple d'items du panier -->
+                            <div class="cart-item d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                                <div class="d-flex align-items-center">
+                                    <img src="/image/miel-lavande.jpg" alt="Miel de lavande" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="ms-3">
+                                        <h6 class="mb-0">Miel de lavande</h6>
+                                        <small class="text-muted">250g</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="input-group input-group-sm me-3" style="width: 100px;">
+                                        <button class="btn btn-outline-secondary" type="button">-</button>
+                                        <input type="text" class="form-control text-center" value="2" readonly>
+                                        <button class="btn btn-outline-secondary" type="button">+</button>
+                                    </div>
+                                    <div class="text-end" style="width: 80px;">
+                                        <span class="fw-bold">28,00 €</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cart-item d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                                <div class="d-flex align-items-center">
+                                    <img src="/image/miel-foret.jpg" alt="Miel de forêt" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="ms-3">
+                                        <h6 class="mb-0">Miel de forêt</h6>
+                                        <small class="text-muted">500g</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="input-group input-group-sm me-3" style="width: 100px;">
+                                        <button class="btn btn-outline-secondary" type="button">-</button>
+                                        <input type="text" class="form-control text-center" value="1" readonly>
+                                        <button class="btn btn-outline-secondary" type="button">+</button>
+                                    </div>
+                                    <div class="text-end" style="width: 80px;">
+                                        <span class="fw-bold">18,00 €</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cart-summary mt-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Sous-total</span>
+                                <span>46,00 €</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Livraison</span>
+                                <span>Gratuite</span>
+                            </div>
+                            <div class="d-flex justify-content-between fw-bold border-top pt-2">
+                                <span>Total</span>
+                                <span>46,00 €</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                            <i class="bi bi-trash me-2"></i>Vider le panier
+                        </button>
+                        <div>
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Fermer</button>
+                            <a href="index.php?page=panier" class="btn btn-primary">
+                                <i class="bi bi-cart-check me-2"></i>Voir le panier
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
