@@ -180,7 +180,7 @@ function userEditControleur($twig, $db){
                             $liste = $role->select();
                             $form['roles']=$liste;
                         }
-                    }catch(e){
+                    }catch(Exception $e){
                         $form['alert'] = [
                             "msg" => "Echec de la modification",
                             "type" => 'danger'

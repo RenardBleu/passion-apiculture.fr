@@ -23,16 +23,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <div>
-                        <ul class="navbar-nav">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between w-100">
+                        <ul class="navbar-nav mb-3 mb-lg-0">
                             <li class="nav-item {{ acceuil|default(' ') }}">
                                 <a class="nav-link text-dark" aria-current="page" href="index.php">Accueil</a>
-                            </li>
-                            <li class="nav-item {{ contact|default(' ') }}">
-                                <a class="nav-link text-dark" href="index.php?page=contact">Contact</a>
-                            </li>
-                            <li class="nav-item {{ legal|default(' ') }}">
-                                <a class="nav-link text-dark" href="index.php?page=legal">Mention légale</a>
                             </li>
                             <li class="nav-item {{ boutique|default(' ') }}">
                                 <a class="nav-link text-dark" href="index.php?page=boutique">Boutique</a>
@@ -51,83 +45,81 @@
                                 </li>
                             {% endif %}
                         </ul>
-                    </div>
-                    {% set total = 0 %}
-                    {% set total_prix = 0 %}
-                    {% if session.panier is defined %}
-                        {% for id in session.panier %}
-                            {% set total = total + id.quantite %}
-                            {% set total_prix = total_prix + id.prix %}
-                        {% endfor %}
-                        {% if total > 99 %}
-                            {% set total = '99+' %}
-                        {% endif %}
-                    {% endif %}
 
-                    <div class="d-flex align-items-center align-content-center">
-                        <div class="nav-item">
-                            <button type="button" class="nav-link nav-link-icon text-dark search" data-bs-toggle="modal" data-bs-target="#ModalRecherche">Recherche<i class="bi bi-search"></i></button>
-                        </div>
-                        <ul class="navbar-nav align-items-center align-content-center">
-                            {% if session.login is defined %}
-                                <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=logout">Se déconnecter</a></li>
-                                <li class="nav-item d-flex flex-column align-items-end">
-                                    <p class="m-0">{{session.fname}}</p>
-                                    {% if session.role == 1 %}
-                                    <p class="admin m-0">Admin</p>
-                                    {% endif %}
-                                </li>
-                            {% else %}
-                                <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=login">Se connecter</a></li>
-                                <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=inscrire">S'inscrire</a></li>
-                            {% endif %}
+                        <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-3">
+                            <div class="nav-item">
+                                <button type="button" class="nav-link nav-link-icon text-dark search w-100" data-bs-toggle="modal" data-bs-target="#ModalRecherche">
+                                    Recherche<i class="bi bi-search"></i>
+                                </button>
+                            </div>
 
-                            <li class="nav-item">
-                                <a class="nav-link-icon text-dark" href="#"><i class="bi bi-person-circle"></i></a>
-                            </li>
-                            <li class="nav-item panier-content">
-                            {% if total > 0 %}
-                                <span class="badge rounded-pill bg-danger notif-panier">{{ total }}</span>
-                            {%  endif %}
-                                <a class="nav-link-icon text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-cart-fill"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end cart-dropdown" style="width: 300px; padding: 1rem;">
-                                    <div class="cart-items">
-                                        <!-- Exemple d'items du panier -->
-                                        {% if session.panier is defined %}
-                                            {% for article in session.panier %}
-                                                <div class="cart-item d-flex justify-content-between align-items-center mb-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <h6 class="mb-0 small">{{ article.nom }}</h6>
-                                                            <small class="text-muted">x{{ article.quantite }}</small>
-                                                        </div>
-                                                    </div>
-                                                    <span class="fw-bold">{{ article.prix }} €</span>
-                                                </div>
-                                            {% endfor %}
-                                            <div class="cart-summary mt-2 pt-2 border-top">
-                                                <div class="d-flex justify-content-between mb-1">
-                                                    <span class="small">Total</span>
-                                                    <span class="fw-bold">{{ total_prix }} €</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="d-flex gap-2 mt-3">
-                                                <a href="index.php?page=panier" class="btn btn-primary btn-sm flex-grow-1">
-                                                    <i class="bi bi-cart-check me-1"></i>Voir ou modifier le panier
-                                                </a>
-                                                <a href="index.php?page=delete-panier-all" type="button" class="btn btn-outline-danger btn-sm">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
-                                            </div>  
-                                        {% else %}
-                                            <p>Aucun produit dans le panier.</p>
+                            <ul class="navbar-nav d-flex flex-row flex-lg-row align-items-center gap-3 mb-3 mb-lg-0">
+                                {% if session.login is defined %}
+                                    <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=logout">Se déconnecter</a></li>
+                                    <li class="nav-item d-flex flex-column align-items-end">
+                                        <p class="m-0">{{session.fname}}</p>
+                                        {% if session.role == 1 %}
+                                        <p class="admin m-0">Admin</p>
                                         {% endif %}
-                                </div>
-                            </li>
-                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=login">Se connecter</a></li>
+                                    <li class="nav-item"><a class="nav-link text-dark" href="index.php?page=inscrire">S'inscrire</a></li>
+                                {% endif %}
+
+                                <li class="nav-item">
+                                    <a class="nav-link-icon text-dark" href="#"><i class="bi bi-person-circle"></i></a>
+                                </li>
+                                <li class="nav-item panier-content">
+                                {% set total = 0 %}
+                                {% for article in session.panier %}
+                                    {% set total = total + article.quantite %}
+                                {% endfor %}
+                                {% if total > 0 %}
+                                    <span class="badge rounded-pill bg-danger notif-panier">{{ total }}</span>
+                                {%  endif %}
+                                    <a class="nav-link-icon text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-cart-fill"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end cart-dropdown" style="width: 300px; padding: 1rem;">
+                                        <div class="cart-items">
+                                        {% set total_panier = 0 %}
+                                            {% if session.panier is defined %}
+                                                {% for article in session.panier %}
+                                                    <div class="cart-item d-flex justify-content-between align-items-center mb-2">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="ms-2">
+                                                                <h6 class="mb-0 small">{{ article.nom }}</h6>
+                                                                <small class="text-muted">x{{ article.quantite }}</small>
+                                                            </div>
+                                                        </div>
+                                                        <span class="fw-bold">{{ article.prix }} €</span>
+                                                    </div>
+                                                    {% set total_panier = total_panier + article.prix %}
+                                                {% endfor %}
+                                                <div class="cart-summary mt-2 pt-2 border-top">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span class="small">Total</span>
+                                                        <span class="fw-bold">{{ total_panier }} €</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex gap-2 mt-3">
+                                                    <a href="index.php?page=panier" class="btn btn-primary btn-sm flex-grow-1">
+                                                        <i class="bi bi-cart-check me-1"></i>Voir ou modifier le panier
+                                                    </a>
+                                                    <a href="index.php?page=delete-panier-all" type="button" class="btn btn-outline-danger btn-sm">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </div>  
+                                            {% else %}
+                                                <p>Aucun produit dans le panier.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -193,6 +185,55 @@
                 </div>
             </div>
         </main>
+        <!-- Footer -->
+        <footer class="bg-white border-top mt-5">
+            <div class="container py-4">
+                <div class="row">
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h5 class="mb-3">Passion Apiculture</h5>
+                        <p class="text-muted mb-0">Votre spécialiste en produits apicoles de qualité. Nous vous proposons une sélection de miels et produits de la ruche pour votre bien-être.</p>
+                    </div>
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h5 class="mb-3">Liens utiles</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="index.php?page=contact" class="text-decoration-none text-dark">
+                                    <i class="bi bi-envelope me-2"></i>Contact
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="index.php?page=legal" class="text-decoration-none text-dark">
+                                    <i class="bi bi-file-text me-2"></i>Mentions légales
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="mb-3">Suivez-nous</h5>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-dark fs-4">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" class="text-dark fs-4">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" class="text-dark fs-4">
+                                <i class="bi bi-tiktok"></i>
+                            </a>
+                            <a href="#" class="text-dark fs-4">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+                        </div>
+                        <p class="text-muted mt-3 mb-0">Restez informé de nos actualités et découvrez nos coulisses !</p>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <div class="text-center text-muted">
+                    <small>&copy; {{ "now"|date("Y") }} Passion Apiculture. Tous droits réservés.</small>
+                </div>
+            </div>
+        </footer>
+
         <!-- Modal Panier -->
         <div class="modal fade" id="ModalPanier" tabindex="-1" role="dialog" aria-labelledby="modalPanier" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -279,6 +320,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
         <script src="/js/script.js"></script>
+        <script src="js/quantity-input.js"></script>
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
             <symbol id="check-circle-fill" viewBox="0 0 16 16">
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>

@@ -30,7 +30,7 @@ class Produit
         $this->selectCount = $db->prepare("select count(*) as nb from produit");
         $this->recherche = $db->prepare("select p.id, title, description, prix, miniature, caracteristiques, stock, p.updateAt, p.deleteAt, t.libelle as libelletype from produit p, type t where p.idType = t.id and (p.title like :recherche OR t.libelle like :recherche) order by title LIMIT :limite OFFSET :inf");
         $this->rechercheCount = $db->prepare("select count(*) as nb from produit p JOIN type t ON p.idType = t.id where p.title like :recherche OR t.libelle like :recherche");
-        $this->selectByType = $db->prepare("select p.id, title, description, prix, miniature, caracteristiques, stock, p.updateAt, p.deleteAt, p.createAt, t.libelle as libelletype from produit p, type t where p.idType = t.id order by p.createAt desc WHERE p.idType = :idType");
+        $this->selectByType = $db->prepare("select p.id, title, description, prix, miniature, caracteristiques, stock, p.updateAt, p.deleteAt, p.createAt, t.libelle as libelletype from produit p, type t where p.idType = t.id and p.idType = :idType and (p.deleteAt is null or p.deleteAt > now()) order by p.createAt desc");
         $this->selectIn = $this->db->prepare("select id, title, description, prix, miniature, idType, stock from produit where FIND_IN_SET(id, :ids)");
         $this->updateStock = $this->db->prepare("update produit set stock=:stock where id=:id");
 

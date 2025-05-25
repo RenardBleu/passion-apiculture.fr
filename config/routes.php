@@ -26,6 +26,7 @@
         $lesPages['panier'] = "PanierControleur";
         $lesPages['add-panier'] = "PanierAddControleur";
         $lesPages['delete-panier-all'] = "PanierDeleteAllControleur";
+        $lesPages['facturepdf'] = "facturePdfControleur";
         $lesPages['maintenance'] = "maintenanceControleur";
             if($db != null){
                 if (isset($_GET['page'])){

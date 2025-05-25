@@ -31,14 +31,24 @@ function AdminCommandeUpdateControleur($twig, $db){
     
     if ($_SESSION["role"] == 1){
         $form = array();
-        $id = $_GET['id'];
+        $num = $_GET['id'];
         $status = $_GET['status'];
 
-        if($id!="" && $status!=""){
+        if($num!="" && $status!=""){
             $commandes = new Commande($db);
-            $commande = $commandes->selectById($id);
+            $commande = $commandes->selectByNum($num);
             if ($commande!=null){
-
+                try{
+                    $commandes->updateStatus($num, $status);
+                    header("Location:index.php?page=admin-commande");
+                }catch(Exception $e){
+                    $form['alert'] = [
+                        "msg" => "Erreur : lors de la modification du status",
+                        "type" => 'danger'
+                    ];
+                    $_SESSION['alert'] = $form['alert'];
+                    header("Location:index.php?page=admin-commande");
+                }
             }
             else{
                 $form['alert'] = [

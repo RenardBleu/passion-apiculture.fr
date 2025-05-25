@@ -72,5 +72,3 @@ class Utilisateur
         return $this->selectByEmail->fetch();
     }
 }
-?>
-}

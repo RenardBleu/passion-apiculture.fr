@@ -82,6 +82,107 @@
     background: rgb(122, 101, 52) !important;
     color: #fff !important;
 }
+@media (max-width: 992px) {
+    .navbar-collapse {
+        background: var(--bg-secondaire);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav {
+        gap: 0.5rem;
+    }
+
+    .nav-item .nav-link {
+        padding: 0.75rem 1rem !important;
+        border-radius: 0.5rem !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        margin: 0.25rem 0 !important;
+    }
+
+    .nav-item .nav-link:hover {
+        background: var(--primary-color) !important;
+        color: #000 !important;
+    }
+
+    .admin-dropdown .nav-link {
+        background: rgba(220, 53, 69, 0.1) !important;
+    }
+
+    .admin-dropdown .nav-link:hover {
+        background: var(--bs-danger) !important;
+        color: #fff !important;
+    }
+
+    .admin-dropdown .dropdown-menu {
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .admin-dropdown .dropdown-item {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        margin: 0.25rem 0;
+    }
+
+    .admin-dropdown .dropdown-item:hover {
+        background: var(--bs-danger);
+        color: #fff !important;
+    }
+
+    .dropdown-menu {
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        margin: 0.25rem 0;
+    }
+
+    .dropdown-item:hover {
+        background: var(--primary-color);
+        color: #000;
+    }
+
+    .cart-dropdown {
+        width: 100% !important;
+        max-width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .panier-content {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .notif-panier {
+        transform: translateX(-15px);
+    }
+}
+
+.navbar-toggler {
+    border: 2px solid var(--primary-color) !important;
+    padding: 0.5rem !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem var(--primary-color-focus-shadow) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(249, 177, 20, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+    width: 1.5em !important;
+    height: 1.5em !important;
+}
 .active > .nav-link{
     padding: 8px 15px !important;
     margin: 0 5px;

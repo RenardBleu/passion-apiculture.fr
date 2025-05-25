@@ -9,9 +9,12 @@
         	<div class="row w-75 m-auto p-5">
 				<!-- Galerie d'images -->
 				<div class="col-md-6 mb-4">
-					<div class="card-image border-0">
-						<img src="{{ form.produit.miniature }}" class="img-fluid rounded" alt="Miel de Lavande">
-						<span class="position-absolute top-0 end-0 badge bg-warning m-3">Nouveau</span>
+					<div class="card-image border-0 bg-light rounded w-100" style="height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+						{% if form.produit.miniature != null %}
+							<img src="{{ form.produit.miniature }}" class="img-fluid" alt="{{ form.produit.title }}" style="max-height: 100%; width: auto; object-fit: contain;">
+						{% else %}
+							<i class="bi bi-card-image text-muted" style="font-size: 5rem;"></i>
+						{% endif %}
 					</div>
 				</div>
 
@@ -52,10 +55,10 @@
 						{% if session.login is defined %}
 							<div class="d-flex mb-4">
 								<form class="d-flex gap-3 w-100" action="index.php?page=add-panier" method="post" enctype="application/xwww-form-urlencoded">
-									<div class="input-group" style="width: 150px;">
-										<button class="btn btn-outline-secondary" type="button">-</button>
+									<div class="input-group quantity-group" style="width: 150px;">
+										<button class="btn btn-outline-secondary btn-minus" type="button">-</button>
 										<input max={{ form.produit.stock - form.quantite_panier }} name="quantite" type="number" class="form-control text-center" value="1" min="1">
-										<button class="btn btn-outline-secondary" type="button">+</button>
+										<button class="btn btn-outline-secondary btn-plus" type="button">+</button>
 									</div>
 									<button type="submit" name="btAjoutP" class="btn btn-primary flex-grow-1">
 										<i class="bi bi-cart-plus me-2"></i>Ajouter au panier
@@ -92,7 +95,7 @@
 					<div class="border-top pt-4">
 						<div class="d-flex justify-content-between mb-3">
 							<span>
-								<i class="bi bi-truck me-2"></i>Livraison gratuite dès 50€</span>
+								<i class="bi bi-truck me-2"></i>Livraison gratuite</span>
 							<span>
 								<i class="bi bi-shield-check me-2"></i>Garantie satisfaction</span>
 						</div>
@@ -105,11 +108,42 @@
 					</div>
 				</div>
 			</div>
-			<div class="row w-75 m-auto p-5">
+			<div class="row m-auto">
 				<div>
 					<h2>Autres produit</h2>
 				</div>
-				<div></div>
+				<div class="d-flex flex-wrap justify-content-start gap-2">
+					{% if liste and liste|length > 0 %}
+                    {% for produit in liste %}
+                        <div class="col-md-2 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-img-top bg-light" style="height: 200px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    {% if produit.miniature != null %}
+                                        <img src="{{ produit.miniature }}" class="img-fluid" alt="{{ produit.title }}" style="max-height: 100%; width: auto; object-fit: contain;">
+                                    {% else %}
+                                        <i class="bi bi-card-image text-muted" style="font-size: 3rem;"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate">{{ produit.title }}</h5>
+                                    <p class="card-text text-primary fw-bold">{{ produit.prix }} €</p>
+                                    <div class="d-flex justify-content-center">
+                                        <a href="index.php?page=show-produit&id={{ produit.id }}" class="btn btn-outline-primary">
+                                            <i class="bi bi-eye me-1"></i>Voir le produit
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>Aucun produit similaire disponible pour le moment.
+                        </div>
+                    </div>
+                {% endif %}
+				</div>
 			</div>
         {% else %}
                 <div class="content-maintenance">

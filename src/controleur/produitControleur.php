@@ -11,6 +11,7 @@ function ShowProduitControleur($twig, $db){
 
         if(isset($unProduit)){
             if($unProduit['deleteAt'] == null){
+                $liste = $produit->selectByType($unProduit['idType']);
                 $form['produit'] = $unProduit;
                 
                 // Vérifier si le produit est dans le panier
@@ -41,5 +42,4 @@ function ShowProduitControleur($twig, $db){
         unset($_SESSION['alert']);
     }
     echo $twig ->render('showProduit.twig', array('form'=>$form,'liste'=>$liste));
-    dump($_SESSION);
 }

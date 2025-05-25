@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-right {
+            text-align: right;
+        }
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .invoice-details div {
+            flex: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th {
+            background-color: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .sections-bottom {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .section {
+            flex: 1;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .total-amount {
+            font-size: 1.2em;
+            color: #28a745;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .special-mention-section {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="{{ logoBase64 }}" alt="Logo Passion Apiculture" style="width: 100px;">
+            <div>
+                <h1 style="margin: 0; color: #2c3e50;">Passion Apiculture</h1>
+            </div>
+        </div>
+        <div class="header-right">
+            <h2 style="color: #2c3e50; margin: 0;">FACTURE</h2>
+            <p style="margin: 5px 0;"><strong>N° Facture:</strong> FACT-{{ "now"|date("d/m/Y") }}-{{ facture.id }}</p>
+            <p style="margin: 5px 0;"><strong>Date d'émission:</strong> {{ commande.createAt|date("d/m/Y") }}</p>
+            <p style="margin: 5px 0;"><strong>Date d'échéance:</strong> {{ commande.createAt|date("d/m/Y") }}</p>
+        </div>
+    </div>
+
+    <div class="invoice-details">
+        <div>
+            <h3>Facturé à:</h3>
+            <p>{{ utilisateur.nom }} {{ utilisateur.prenom }}<br>
+            Address Line 1<br>
+            Address Line 2<br>
+            City, Postal Code<br>
+            Country</p>
+        </div>
+        <div>
+            <h3>De:</h3>
+            <p>Passion Apiculture<br>
+            435 impasse des chèvrefeuilles<br>
+            Orange, 84100<br>
+            France</p>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Quantité</th>
+                <th>Taux TVA</th>
+                <th>Prix Unitaire</th>
+                <th style="text-align: right;">Total HT</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set total = 0 %}
+            {% for p in liste %}
+            <tr>
+                <td>{{ p.title }}</td>
+                <td>{{ p.quantite }}</td>
+                <td>?</td>
+                <td>{{ p.prix }} €</td>
+                <td style="text-align: right;">{{ p.prix * p.quantite }} €</td>
+            </tr>
+            {% set total = total + (p.prix * p.quantite) %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="sections-bottom">
+        <div class="section vat-section">
+            <h3>Détails TVA</h3>
+            <p>Aucune info</p>
+            <!--<p><strong>Taux 20%:</strong> 159,00 € (Base) - 31,80 € (Montant)</p>
+            <p><strong>Taux 5.5%:</strong> 17,03 € (Base) - 0,94 € (Montant)</p>-->
+        </div>
+
+        <div class="section summary-section">
+            <h3>Résumé</h3>
+            <p><span>Total HT:</span> <span>{{ total }} €</span></p>
+            <p><span>Total TVA:</span> <span>? €</span></p>
+            <p><span><strong>Total TTC:</strong></span> <span class="total-amount"><strong>{{ total + tva}} €</strong></span></p>
+        </div>
+
+        <div class="section payment-section">
+            <h3>Informations de paiement</h3>
+            <p><strong>Type:</strong> Carte CB / Visa debit</p>
+            <p><strong>Numéro carte:</strong> XX34</p>
+            <p><strong>Date :</strong> {{ "now"|date("d/m/Y") }}</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Passion Apiculture - SIRET: 123 456 789 00010 - TVA: FR12345678900</p>
+        <p>Facture générée par Passion Apiculture</p>
+    </div>
+</body>
+</html>

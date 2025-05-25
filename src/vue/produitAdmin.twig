@@ -178,10 +178,10 @@
                         <div class="col-md-8 pb-4" id="miniature-content"></div>
                         <div class="col-md-4">
                             <label for="stock" class="form-label">Stock de départ</label>
-                            <div class="input-group mb-3">
-                                <button class="btn btn-outline-secondary" type="button">-</button>
-                                <input step="1" name="stock" type="number" value="0" class="form-control" id="stock" placeholder="Stock de départ">
-                                <button class="btn btn-outline-secondary" type="button">+</button>
+                            <div class="input-group mb-3 quantity-group">
+                                <button class="btn btn-outline-secondary btn-minus" type="button">-</button>
+                                <input step="1" min="0" name="stock" type="number" value="0" class="form-control" id="stock" placeholder="Stock de départ">
+                                <button class="btn btn-outline-secondary btn-plus" type="button">+</button>
                             </div>
                         </div>
                     </div>

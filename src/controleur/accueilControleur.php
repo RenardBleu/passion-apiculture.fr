@@ -1,5 +1,6 @@
 <?php
     function accueilControleur($twig){
+        $form = array();
         if (isset($_SESSION['alert'])) {
             $form['alert'] = $_SESSION['alert'];
             unset($_SESSION['alert']);
